@@ -137,6 +137,11 @@
   border-radius: 14px;
 }
 
+#system-architecture .module.error {
+  background: rgba(255, 130, 130, 0.3);
+  border: 2px solid #eb3437;
+}
+
 #system-architecture .module .module-name {
   display: flex;
   flex-direction: column;

@@ -12,6 +12,18 @@ const SystemArchitecture = ({
   modules = [],
   ...props
 }: SystemArchitureProps) => {
+  // 모듈의 에러 상태를 체크하는 함수
+  const getModuleErrorStatus = (moduleName: string) => {
+    const module = modules.find((m) => m.name === moduleName);
+    const hasPowerError = module?.powerSupply && module.powerSupply !== 'OK';
+    const hasHealthError = module?.health !== 'OK';
+    return {
+      hasPowerError,
+      hasHealthError,
+      hasAnyError: hasPowerError || hasHealthError,
+    };
+  };
+
   return (
     <div id="system-architecture" {...props}>
       <div className="hpc-area">
@@ -25,7 +37,9 @@ const SystemArchitecture = ({
         </div>
       </div>
       <div
-        className="module"
+        className={`module ${
+          getModuleErrorStatus('PCIeSwitch').hasAnyError ? 'error' : ''
+        }`}
         style={{
           position: 'absolute',
           top: '20px',
@@ -38,18 +52,14 @@ const SystemArchitecture = ({
         <div className="module-info">
           <div
             className={`module-ps ${
-              modules.find((m) => m.name === 'PCIeSwitch')?.powerSupply !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('PCIeSwitch').hasPowerError ? 'err' : ''
             }`}
           >
             Power Supply:
           </div>
           <div
             className={`module-health ${
-              modules.find((m) => m.name === 'PCIeSwitch')?.health !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('PCIeSwitch').hasHealthError ? 'err' : ''
             }`}
           >
             Health:
@@ -57,7 +67,9 @@ const SystemArchitecture = ({
         </div>
       </div>
       <div
-        className="module"
+        className={`module ${
+          getModuleErrorStatus('NVMe').hasAnyError ? 'error' : ''
+        }`}
         style={{
           position: 'absolute',
           top: '20px',
@@ -70,18 +82,14 @@ const SystemArchitecture = ({
         <div className="module-info">
           <div
             className={`module-ps ${
-              modules.find((m) => m.name === 'NVMe')?.powerSupply !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('NVMe').hasPowerError ? 'err' : ''
             }`}
           >
             Power Supply:
           </div>
           <div
             className={`module-health ${
-              modules.find((m) => m.name === 'NVMe')?.health !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('NVMe').hasHealthError ? 'err' : ''
             }`}
           >
             Health:
@@ -89,7 +97,9 @@ const SystemArchitecture = ({
         </div>
       </div>
       <div
-        className="module"
+        className={`module ${
+          getModuleErrorStatus('SoC1').hasAnyError ? 'error' : ''
+        }`}
         style={{
           position: 'absolute',
           top: '180px',
@@ -102,18 +112,14 @@ const SystemArchitecture = ({
         <div className="module-info">
           <div
             className={`module-ps ${
-              modules.find((m) => m.name === 'SoC1')?.powerSupply !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('SoC1').hasPowerError ? 'err' : ''
             }`}
           >
             Power Supply:
           </div>
           <div
             className={`module-health ${
-              modules.find((m) => m.name === 'SoC1')?.health !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('SoC1').hasHealthError ? 'err' : ''
             }`}
           >
             Health:
@@ -121,7 +127,9 @@ const SystemArchitecture = ({
         </div>
       </div>
       <div
-        className="module"
+        className={`module ${
+          getModuleErrorStatus('SafetyMCU').hasAnyError ? 'error' : ''
+        }`}
         style={{
           position: 'absolute',
           top: '190px',
@@ -134,18 +142,14 @@ const SystemArchitecture = ({
         <div className="module-info">
           <div
             className={`module-ps ${
-              modules.find((m) => m.name === 'SafetyMCU')?.powerSupply !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('SafetyMCU').hasPowerError ? 'err' : ''
             }`}
           >
             Power Supply:
           </div>
           <div
             className={`module-health ${
-              modules.find((m) => m.name === 'SafetyMCU')?.health !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('SafetyMCU').hasHealthError ? 'err' : ''
             }`}
           >
             Health:
@@ -153,7 +157,9 @@ const SystemArchitecture = ({
         </div>
       </div>
       <div
-        className="module"
+        className={`module ${
+          getModuleErrorStatus('SoC2').hasAnyError ? 'error' : ''
+        }`}
         style={{
           position: 'absolute',
           top: '180px',
@@ -166,18 +172,14 @@ const SystemArchitecture = ({
         <div className="module-info">
           <div
             className={`module-ps ${
-              modules.find((m) => m.name === 'SoC2')?.powerSupply !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('SoC2').hasPowerError ? 'err' : ''
             }`}
           >
             Power Supply:
           </div>
           <div
             className={`module-health ${
-              modules.find((m) => m.name === 'SoC2')?.health !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('SoC2').hasHealthError ? 'err' : ''
             }`}
           >
             Health:
@@ -185,7 +187,9 @@ const SystemArchitecture = ({
         </div>
       </div>
       <div
-        className="module"
+        className={`module ${
+          getModuleErrorStatus('Camera1').hasAnyError ? 'error' : ''
+        }`}
         style={{
           position: 'absolute',
           top: '360px',
@@ -198,18 +202,14 @@ const SystemArchitecture = ({
         <div className="module-info">
           <div
             className={`module-ps ${
-              modules.find((m) => m.name === 'Camera1')?.powerSupply !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('Camera1').hasPowerError ? 'err' : ''
             }`}
           >
             Power Supply:
           </div>
           <div
             className={`module-health ${
-              modules.find((m) => m.name === 'Camera1')?.health !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('Camera1').hasHealthError ? 'err' : ''
             }`}
           >
             Health:
@@ -217,7 +217,9 @@ const SystemArchitecture = ({
         </div>
       </div>
       <div
-        className="module"
+        className={`module ${
+          getModuleErrorStatus('ETH1').hasAnyError ? 'error' : ''
+        }`}
         style={{
           position: 'absolute',
           top: '360px',
@@ -230,18 +232,14 @@ const SystemArchitecture = ({
         <div className="module-info">
           <div
             className={`module-ps ${
-              modules.find((m) => m.name === 'ETH1')?.powerSupply !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('ETH1').hasPowerError ? 'err' : ''
             }`}
           >
             Power Supply:
           </div>
           <div
             className={`module-health ${
-              modules.find((m) => m.name === 'ETH1')?.health !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('ETH1').hasHealthError ? 'err' : ''
             }`}
           >
             Health:
@@ -249,7 +247,9 @@ const SystemArchitecture = ({
         </div>
       </div>
       <div
-        className="module"
+        className={`module ${
+          getModuleErrorStatus('Display1').hasAnyError ? 'error' : ''
+        }`}
         style={{
           position: 'absolute',
           top: '360px',
@@ -262,18 +262,14 @@ const SystemArchitecture = ({
         <div className="module-info">
           <div
             className={`module-ps ${
-              modules.find((m) => m.name === 'Display1')?.powerSupply !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('Display1').hasPowerError ? 'err' : ''
             }`}
           >
             Power Supply:
           </div>
           <div
             className={`module-health ${
-              modules.find((m) => m.name === 'Display1')?.health !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('Display1').hasHealthError ? 'err' : ''
             }`}
           >
             Health:
@@ -282,7 +278,9 @@ const SystemArchitecture = ({
       </div>
 
       <div
-        className="module"
+        className={`module ${
+          getModuleErrorStatus('Zonal0').hasAnyError ? 'error' : ''
+        }`}
         style={{
           position: 'absolute',
           top: '561px',
@@ -295,9 +293,7 @@ const SystemArchitecture = ({
         <div className="module-info">
           <div
             className={`module-health ${
-              modules.find((m) => m.name === 'Zonal0')?.health !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('Zonal0').hasHealthError ? 'err' : ''
             }`}
           >
             Health:
@@ -305,7 +301,9 @@ const SystemArchitecture = ({
         </div>
       </div>
       <div
-        className="module"
+        className={`module ${
+          getModuleErrorStatus('SWLESS0_0').hasAnyError ? 'error' : ''
+        }`}
         style={{
           position: 'absolute',
           top: '707px',
@@ -318,9 +316,7 @@ const SystemArchitecture = ({
         <div className="module-info">
           <div
             className={`module-health ${
-              modules.find((m) => m.name === 'SWLESS0_0')?.health !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('SWLESS0_0').hasHealthError ? 'err' : ''
             }`}
           >
             Health:
@@ -328,7 +324,9 @@ const SystemArchitecture = ({
         </div>
       </div>
       <div
-        className="module"
+        className={`module ${
+          getModuleErrorStatus('SWLESS0_1').hasAnyError ? 'error' : ''
+        }`}
         style={{
           position: 'absolute',
           top: '707px',
@@ -341,9 +339,7 @@ const SystemArchitecture = ({
         <div className="module-info">
           <div
             className={`module-health ${
-              modules.find((m) => m.name === 'SWLESS0_1')?.health !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('SWLESS0_1').hasHealthError ? 'err' : ''
             }`}
           >
             Health:
@@ -351,7 +347,9 @@ const SystemArchitecture = ({
         </div>
       </div>
       <div
-        className="module"
+        className={`module ${
+          getModuleErrorStatus('MCU0').hasAnyError ? 'error' : ''
+        }`}
         style={{
           position: 'absolute',
           top: '707px',
@@ -364,9 +362,7 @@ const SystemArchitecture = ({
         <div className="module-info">
           <div
             className={`module-health ${
-              modules.find((m) => m.name === 'MCU0')?.health !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('MCU0').hasHealthError ? 'err' : ''
             }`}
           >
             Health:
@@ -375,7 +371,9 @@ const SystemArchitecture = ({
       </div>
 
       <div
-        className="module"
+        className={`module ${
+          getModuleErrorStatus('Zonal1').hasAnyError ? 'error' : ''
+        }`}
         style={{
           position: 'absolute',
           top: '561px',
@@ -388,9 +386,7 @@ const SystemArchitecture = ({
         <div className="module-info">
           <div
             className={`module-health ${
-              modules.find((m) => m.name === 'Zonal1')?.health !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('Zonal1').hasHealthError ? 'err' : ''
             }`}
           >
             Health:
@@ -398,7 +394,9 @@ const SystemArchitecture = ({
         </div>
       </div>
       <div
-        className="module"
+        className={`module ${
+          getModuleErrorStatus('SWLESS1_0').hasAnyError ? 'error' : ''
+        }`}
         style={{
           position: 'absolute',
           top: '707px',
@@ -411,9 +409,7 @@ const SystemArchitecture = ({
         <div className="module-info">
           <div
             className={`module-health ${
-              modules.find((m) => m.name === 'SWLESS1_0')?.health !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('SWLESS1_0').hasHealthError ? 'err' : ''
             }`}
           >
             Health:
@@ -421,7 +417,9 @@ const SystemArchitecture = ({
         </div>
       </div>
       <div
-        className="module"
+        className={`module ${
+          getModuleErrorStatus('SWLESS1_1').hasAnyError ? 'error' : ''
+        }`}
         style={{
           position: 'absolute',
           top: '707px',
@@ -434,9 +432,7 @@ const SystemArchitecture = ({
         <div className="module-info">
           <div
             className={`module-health ${
-              modules.find((m) => m.name === 'SWLESS1_1')?.health !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('SWLESS1_1').hasHealthError ? 'err' : ''
             }`}
           >
             Health:
@@ -444,7 +440,9 @@ const SystemArchitecture = ({
         </div>
       </div>
       <div
-        className="module"
+        className={`module ${
+          getModuleErrorStatus('MCU1').hasAnyError ? 'error' : ''
+        }`}
         style={{
           position: 'absolute',
           top: '707px',
@@ -457,9 +455,7 @@ const SystemArchitecture = ({
         <div className="module-info">
           <div
             className={`module-health ${
-              modules.find((m) => m.name === 'MCU1')?.health !== 'OK'
-                ? 'err'
-                : ''
+              getModuleErrorStatus('MCU1').hasHealthError ? 'err' : ''
             }`}
           >
             Health:
