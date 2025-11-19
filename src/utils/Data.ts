@@ -9,6 +9,16 @@ export interface SystemArchitecture {
   modules: ModuleStatus[];
 }
 
+export interface ThermalStatus {
+  moduleName: string;
+  lineColor: string;
+  value: number[];
+}
+
+export interface ThermalMonitoringData {
+  thermalStatus: ThermalStatus[];
+}
+
 export interface SystemInfo {
   systemArchitecture: SystemArchitecture;
 }

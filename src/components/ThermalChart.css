@@ -1,0 +1,46 @@
+.thermal-chart {
+  /* graph */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 20px;
+  gap: 10px;
+  isolation: isolate;
+
+  width: 612px;
+  height: 400px;
+
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 20px;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+.thermal-chart .chart-title {
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+  padding: 0px;
+  gap: 12.12px;
+
+  width: 175px;
+  height: 29px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  color: #1d1d1d;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
