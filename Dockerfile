@@ -21,5 +21,5 @@ RUN mkdir -p /tmp/.vite && chmod -R 777 /tmp
 # Create volume for node_modules to ensure it's writable
 VOLUME ["/app/node_modules"]
 
-EXPOSE 5174
+EXPOSE 5176
 CMD ["npm", "run", "dev", "--", "--force"]

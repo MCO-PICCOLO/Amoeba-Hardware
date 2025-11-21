@@ -7,7 +7,7 @@ export default defineConfig({
   cacheDir: '/tmp/.vite',
   server: {
     host: '0.0.0.0',
-    port: 5174,
+    port: 5176,
     // 캐시 관련 헤더 설정으로 캐시 문제 방지
     headers: {
       'Cache-Control': 'no-cache, no-store, must-revalidate',
