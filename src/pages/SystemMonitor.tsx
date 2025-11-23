@@ -42,192 +42,192 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
   });
 
   const timeoutRef = useRef<number | null>(null);
-  const sampleIndexRef = useRef<number>(0);
+  //const sampleIndexRef = useRef<number>(0);
   const soc1ThermalRef = useRef<ThermalMonitoringData>({ thermalStatus: [] });
   const soc2ThermalRef = useRef<ThermalMonitoringData>({ thermalStatus: [] });
 
   // 테스트용 샘플 데이터 생성 함수
-  const getTestSampleData = () => {
-    const samples = [
-      {
-        SystemInfo: {
-          SoC1: {
-            ServerVM: {
-              Temperature: {
-                ChipPackage: 45 + Math.random() * 10,
-                CpuCluster0: { avg: 50 + Math.random() * 15 },
-                CpuCluster1: { avg: 48 + Math.random() * 12 },
-                CpuCluster2: { avg: 42 + Math.random() * 8 },
-                GPU: 55 + Math.random() * 20,
-                NPU: 60 + Math.random() * 15,
-              },
-            },
-          },
-          SoC2: {
-            ServerVM: {
-              Temperature: {
-                ChipPackage: 40 + Math.random() * 8,
-                CpuCluster0: { avg: 45 + Math.random() * 10 },
-                CpuCluster1: { avg: 43 + Math.random() * 10 },
-                CpuCluster2: { avg: 38 + Math.random() * 7 },
-                GPU: 50 + Math.random() * 18,
-                NPU: 55 + Math.random() * 12,
-              },
-            },
-          },
-          System: {
-            Camera1: { status: 'OK', power: 10, current: 1, voltage: 12 },
-            Display1: { status: 'OK', power: 15, current: 1.5, voltage: 12 },
-            SoC1: { status: 'OK', power: 25, current: 2.5, voltage: 12 },
-            SoC2: { status: 'OK', power: 25, current: 2.5, voltage: 12 },
-            PCIeSwitch: { status: 'OK', power: 8, current: 0.8, voltage: 12 },
-            ETH1: { status: 'OK', power: 5, current: 0.5, voltage: 12 },
-            SafetyMCU: { status: 'OK', power: 3, current: 0.3, voltage: 12 },
-            NVMe: { status: 'OK', power: 7, current: 0.7, voltage: 12 },
-            Health: {
-              Camera1: 'OK',
-              Display1: 'OK',
-              SoC1: 'OK',
-              SoC2: 'OK',
-              PCIeSwitch: 'OK',
-              ETH1: 'OK',
-              SafetyMCU: 'OK',
-              NVMe: 'OK',
-              Zonal0: 'OK',
-              Zonal1: 'OK',
-              MCU0: 'OK',
-              MCU1: 'OK',
-              SWLESS0_0: 'OK',
-              SWLESS0_1: 'OK',
-              SWLESS1_0: 'OK',
-              SWLESS1_1: 'OK',
-            },
-            power: 100,
-          },
-        },
-      },
-      {
-        SystemInfo: {
-          SoC1: {
-            ServerVM: {
-              Temperature: {
-                ChipPackage: 50 + Math.random() * 12,
-                CpuCluster0: { avg: 55 + Math.random() * 18 },
-                CpuCluster1: { avg: 52 + Math.random() * 15 },
-                CpuCluster2: { avg: 46 + Math.random() * 10 },
-                GPU: 60 + Math.random() * 25,
-                NPU: 65 + Math.random() * 18,
-              },
-            },
-          },
-          SoC2: {
-            ServerVM: {
-              Temperature: {
-                ChipPackage: 44 + Math.random() * 10,
-                CpuCluster0: { avg: 48 + Math.random() * 12 },
-                CpuCluster1: { avg: 46 + Math.random() * 12 },
-                CpuCluster2: { avg: 41 + Math.random() * 9 },
-                GPU: 54 + Math.random() * 20,
-                NPU: 58 + Math.random() * 15,
-              },
-            },
-          },
-          System: {
-            Camera1: { status: 'OK', power: 11, current: 1.1, voltage: 12 },
-            Display1: { status: 'OK', power: 16, current: 1.6, voltage: 12 },
-            SoC1: { status: 'ERR', power: 28, current: 2.8, voltage: 12 },
-            SoC2: { status: 'OK', power: 26, current: 2.6, voltage: 12 },
-            PCIeSwitch: { status: 'ERR', power: 9, current: 0.9, voltage: 12 },
-            ETH1: { status: 'ERR', power: 6, current: 0.6, voltage: 12 },
-            SafetyMCU: { status: 'OK', power: 3, current: 0.3, voltage: 12 },
-            NVMe: { status: 'OK', power: 8, current: 0.8, voltage: 12 },
-            Health: {
-              Camera1: 'OK',
-              Display1: 'OK',
-              SoC1: 'OK',
-              SoC2: 'OK',
-              PCIeSwitch: 'ERR',
-              ETH1: 'ERR',
-              SafetyMCU: 'OK',
-              NVMe: 'OK',
-              Zonal0: 'OK',
-              Zonal1: 'ERR',
-              MCU0: 'ERR',
-              MCU1: 'OK',
-              SWLESS0_0: 'OK',
-              SWLESS0_1: 'ERR',
-              SWLESS1_0: 'OK',
-              SWLESS1_1: 'OK',
-            },
-            power: 110,
-          },
-        },
-      },
-      {
-        SystemInfo: {
-          SoC1: {
-            ServerVM: {
-              Temperature: {
-                ChipPackage: 48 + Math.random() * 11,
-                CpuCluster0: { avg: 53 + Math.random() * 16 },
-                CpuCluster1: { avg: 50 + Math.random() * 14 },
-                CpuCluster2: { avg: 44 + Math.random() * 9 },
-                GPU: 58 + Math.random() * 22,
-                NPU: 63 + Math.random() * 17,
-              },
-            },
-          },
-          SoC2: {
-            ServerVM: {
-              Temperature: {
-                ChipPackage: 42 + Math.random() * 9,
-                CpuCluster0: { avg: 47 + Math.random() * 11 },
-                CpuCluster1: { avg: 45 + Math.random() * 11 },
-                CpuCluster2: { avg: 40 + Math.random() * 8 },
-                GPU: 52 + Math.random() * 19,
-                NPU: 57 + Math.random() * 14,
-              },
-            },
-          },
-          System: {
-            Camera1: { status: 'OK', power: 10, current: 1, voltage: 12 },
-            Display1: { status: 'OK', power: 15, current: 1.5, voltage: 12 },
-            SoC1: { status: 'OK', power: 26, current: 2.6, voltage: 12 },
-            SoC2: { status: 'OK', power: 25, current: 2.5, voltage: 12 },
-            PCIeSwitch: { status: 'OK', power: 8, current: 0.8, voltage: 12 },
-            ETH1: { status: 'OK', power: 5, current: 0.5, voltage: 12 },
-            SafetyMCU: { status: 'OK', power: 3, current: 0.3, voltage: 12 },
-            NVMe: { status: 'OK', power: 7, current: 0.7, voltage: 12 },
-            Health: {
-              Camera1: 'OK',
-              Display1: 'OK',
-              SoC1: 'OK',
-              SoC2: 'OK',
-              PCIeSwitch: 'OK',
-              ETH1: 'OK',
-              SafetyMCU: 'OK',
-              NVMe: 'OK',
-              Zonal0: 'OK',
-              Zonal1: 'OK',
-              MCU0: 'OK',
-              MCU1: 'OK',
-              SWLESS0_0: 'OK',
-              SWLESS0_1: 'OK',
-              SWLESS1_0: 'OK',
-              SWLESS1_1: 'OK',
-            },
-            power: 105,
-          },
-        },
-      },
-    ];
+//const getTestSampleData = () => {
+//    const samples = [
+//      {
+//        SystemInfo: {
+//          SoC1: {
+//            ServerVM: {
+//              Temperature: {
+//                ChipPackage: 45 + Math.random() * 10,
+//                CpuCluster0: { avg: 50 + Math.random() * 15 },
+//                CpuCluster1: { avg: 48 + Math.random() * 12 },
+//                CpuCluster2: { avg: 42 + Math.random() * 8 },
+//                GPU: 55 + Math.random() * 20,
+//                NPU: 60 + Math.random() * 15,
+//              },
+//            },
+//          },
+//          SoC2: {
+//            ServerVM: {
+//              Temperature: {
+//                ChipPackage: 40 + Math.random() * 8,
+//                CpuCluster0: { avg: 45 + Math.random() * 10 },
+//                CpuCluster1: { avg: 43 + Math.random() * 10 },
+//                CpuCluster2: { avg: 38 + Math.random() * 7 },
+//                GPU: 50 + Math.random() * 18,
+//                NPU: 55 + Math.random() * 12,
+//              },
+//            },
+//          },
+//          System: {
+//            Camera1: { status: 'OK', power: 10, current: 1, voltage: 12 },
+//            Display1: { status: 'OK', power: 15, current: 1.5, voltage: 12 },
+//            SoC1: { status: 'OK', power: 25, current: 2.5, voltage: 12 },
+//            SoC2: { status: 'OK', power: 25, current: 2.5, voltage: 12 },
+//            PCIeSwitch: { status: 'OK', power: 8, current: 0.8, voltage: 12 },
+//            ETH1: { status: 'OK', power: 5, current: 0.5, voltage: 12 },
+//            SafetyMCU: { status: 'OK', power: 3, current: 0.3, voltage: 12 },
+//            NVMe: { status: 'OK', power: 7, current: 0.7, voltage: 12 },
+//            Health: {
+//              Camera1: 'OK',
+//              Display1: 'OK',
+//              SoC1: 'OK',
+//              SoC2: 'OK',
+//              PCIeSwitch: 'OK',
+//              ETH1: 'OK',
+//              SafetyMCU: 'OK',
+//              NVMe: 'OK',
+//              Zonal0: 'OK',
+//              Zonal1: 'OK',
+//              MCU0: 'OK',
+//              MCU1: 'OK',
+//              SWLESS0_0: 'OK',
+//              SWLESS0_1: 'OK',
+//              SWLESS1_0: 'OK',
+//              SWLESS1_1: 'OK',
+//            },
+//            power: 100,
+//          },
+//        },
+//      },
+//      {
+//        SystemInfo: {
+//          SoC1: {
+//            ServerVM: {
+//              Temperature: {
+//                ChipPackage: 50 + Math.random() * 12,
+//                CpuCluster0: { avg: 55 + Math.random() * 18 },
+//                CpuCluster1: { avg: 52 + Math.random() * 15 },
+//                CpuCluster2: { avg: 46 + Math.random() * 10 },
+//                GPU: 60 + Math.random() * 25,
+//                NPU: 65 + Math.random() * 18,
+//              },
+//            },
+//          },
+//          SoC2: {
+//            ServerVM: {
+//              Temperature: {
+//                ChipPackage: 44 + Math.random() * 10,
+//                CpuCluster0: { avg: 48 + Math.random() * 12 },
+//                CpuCluster1: { avg: 46 + Math.random() * 12 },
+//                CpuCluster2: { avg: 41 + Math.random() * 9 },
+//                GPU: 54 + Math.random() * 20,
+//                NPU: 58 + Math.random() * 15,
+//              },
+//            },
+//          },
+//          System: {
+//            Camera1: { status: 'OK', power: 11, current: 1.1, voltage: 12 },
+//            Display1: { status: 'OK', power: 16, current: 1.6, voltage: 12 },
+//            SoC1: { status: 'ERR', power: 28, current: 2.8, voltage: 12 },
+//            SoC2: { status: 'OK', power: 26, current: 2.6, voltage: 12 },
+//            PCIeSwitch: { status: 'ERR', power: 9, current: 0.9, voltage: 12 },
+//            ETH1: { status: 'ERR', power: 6, current: 0.6, voltage: 12 },
+//            SafetyMCU: { status: 'OK', power: 3, current: 0.3, voltage: 12 },
+//            NVMe: { status: 'OK', power: 8, current: 0.8, voltage: 12 },
+//            Health: {
+//              Camera1: 'OK',
+//              Display1: 'OK',
+//              SoC1: 'OK',
+//              SoC2: 'OK',
+//              PCIeSwitch: 'ERR',
+//              ETH1: 'ERR',
+//              SafetyMCU: 'OK',
+//              NVMe: 'OK',
+//              Zonal0: 'OK',
+//              Zonal1: 'ERR',
+//              MCU0: 'ERR',
+//              MCU1: 'OK',
+//              SWLESS0_0: 'OK',
+//              SWLESS0_1: 'ERR',
+//              SWLESS1_0: 'OK',
+//              SWLESS1_1: 'OK',
+//            },
+//            power: 110,
+//          },
+//        },
+//      },
+//      {
+//        SystemInfo: {
+//          SoC1: {
+//            ServerVM: {
+//              Temperature: {
+//                ChipPackage: 48 + Math.random() * 11,
+//                CpuCluster0: { avg: 53 + Math.random() * 16 },
+//                CpuCluster1: { avg: 50 + Math.random() * 14 },
+//                CpuCluster2: { avg: 44 + Math.random() * 9 },
+//                GPU: 58 + Math.random() * 22,
+//                NPU: 63 + Math.random() * 17,
+//              },
+//            },
+//          },
+//          SoC2: {
+//            ServerVM: {
+//              Temperature: {
+//                ChipPackage: 42 + Math.random() * 9,
+//                CpuCluster0: { avg: 47 + Math.random() * 11 },
+//                CpuCluster1: { avg: 45 + Math.random() * 11 },
+//                CpuCluster2: { avg: 40 + Math.random() * 8 },
+//                GPU: 52 + Math.random() * 19,
+//                NPU: 57 + Math.random() * 14,
+//              },
+//            },
+//          },
+//          System: {
+//            Camera1: { status: 'OK', power: 10, current: 1, voltage: 12 },
+//            Display1: { status: 'OK', power: 15, current: 1.5, voltage: 12 },
+//            SoC1: { status: 'OK', power: 26, current: 2.6, voltage: 12 },
+//            SoC2: { status: 'OK', power: 25, current: 2.5, voltage: 12 },
+//            PCIeSwitch: { status: 'OK', power: 8, current: 0.8, voltage: 12 },
+//            ETH1: { status: 'OK', power: 5, current: 0.5, voltage: 12 },
+//            SafetyMCU: { status: 'OK', power: 3, current: 0.3, voltage: 12 },
+//            NVMe: { status: 'OK', power: 7, current: 0.7, voltage: 12 },
+//            Health: {
+//              Camera1: 'OK',
+//              Display1: 'OK',
+//              SoC1: 'OK',
+//              SoC2: 'OK',
+//              PCIeSwitch: 'OK',
+//              ETH1: 'OK',
+//              SafetyMCU: 'OK',
+//              NVMe: 'OK',
+//              Zonal0: 'OK',
+//              Zonal1: 'OK',
+//              MCU0: 'OK',
+//              MCU1: 'OK',
+//              SWLESS0_0: 'OK',
+//              SWLESS0_1: 'OK',
+//              SWLESS1_0: 'OK',
+//              SWLESS1_1: 'OK',
+//            },
+//            power: 105,
+//          },
+//        },
+//      },
+//    ];
 
     // 샘플 인덱스를 순환
-    const data = samples[sampleIndexRef.current % samples.length];
-    sampleIndexRef.current += 1;
-
-    return data;
-  };
+//    const data = samples[sampleIndexRef.current % samples.length];
+//    sampleIndexRef.current += 1;
+//
+//    return data;
+//  };
 
   const fetchSystemInfo = async () => {
     const startTime = Date.now();

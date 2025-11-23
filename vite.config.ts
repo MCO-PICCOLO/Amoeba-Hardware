@@ -15,11 +15,11 @@ export default defineConfig({
       Expires: '0',
     },
     proxy: {
-      '/api': {
-        target: 'http://10.0.0.30:8080',
+      '/api/items/': {
+        target: 'http://192.168.10.11:5000',
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, '/api'),
+        rewrite: (path) => path.replace(/^\/api\/items/, '/api/items'),
         timeout: 5000,
         proxyTimeout: 10000,
       },
