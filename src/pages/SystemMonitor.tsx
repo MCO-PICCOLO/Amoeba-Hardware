@@ -42,270 +42,14 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
   });
 
   const timeoutRef = useRef<number | null>(null);
+  const soc1ThermalRef = useRef<ThermalMonitoringData>({ thermalStatus: [] });
+  const soc2ThermalRef = useRef<ThermalMonitoringData>({ thermalStatus: [] });
 
   const fetchSystemInfo = async () => {
     const startTime = Date.now();
 
     try {
       const data = await getSystemInfo();
-      // const data = {
-      //   SystemInfo: {
-      //     SoC1: {
-      //       AndroidVM: {
-      //         cpus: {},
-      //         memory: {},
-      //       },
-      //       ServerVM: {
-      //         Temperature: {
-      //           ChipPackage: 10,
-      //           CpuCluster0: {
-      //             avg: 30,
-      //           },
-      //           CpuCluster1: {
-      //             avg: 20,
-      //           },
-      //           CpuCluster2: {
-      //             avg: 1,
-      //           },
-      //           GPU: 50,
-      //           NPU: 60,
-      //         },
-      //         cpus: {
-      //           cpu0: {
-      //             utilization: '14.3',
-      //           },
-      //           cpu1: {
-      //             utilization: '18.2',
-      //           },
-      //           cpu2: {
-      //             utilization: '15.5',
-      //           },
-      //           cpu3: {
-      //             utilization: '14.1',
-      //           },
-      //           cpu4: {
-      //             utilization: '17.3',
-      //           },
-      //           cpu5: {
-      //             utilization: '17.3',
-      //           },
-      //           cpu6: {
-      //             utilization: '15.0',
-      //           },
-      //           cpu7: {
-      //             utilization: '14.0',
-      //           },
-      //         },
-      //         gpu: {},
-      //         memory: {
-      //           TotalMemory: '24574976',
-      //           UsedMemory: '10483712',
-      //           usage: 42.66011083795158,
-      //         },
-      //         network: {
-      //           tap0: {},
-      //         },
-      //         storage: {
-      //           ufs: {},
-      //         },
-      //       },
-      //       YoctoVM: {
-      //         cpus: {},
-      //         memory: {},
-      //       },
-      //     },
-
-      //     SoC2: {
-      //       AndroidVM: {
-      //         cpus: {},
-      //         memory: {},
-      //       },
-      //       ServerVM: {
-      //         Temperature: {
-      //           ChipPackage: 1,
-      //           CpuCluster0: {
-      //             avg: 2,
-      //           },
-      //           CpuCluster1: {
-      //             avg: 3,
-      //           },
-      //           CpuCluster2: {
-      //             avg: 4,
-      //           },
-      //           GPU: 5,
-      //           NPU: 6,
-      //         },
-      //         cpus: {
-      //           cpu0: {
-      //             utilization: '14.3',
-      //           },
-      //           cpu1: {
-      //             utilization: '18.2',
-      //           },
-      //           cpu2: {
-      //             utilization: '15.5',
-      //           },
-      //           cpu3: {
-      //             utilization: '14.1',
-      //           },
-      //           cpu4: {
-      //             utilization: '17.3',
-      //           },
-      //           cpu5: {
-      //             utilization: '17.3',
-      //           },
-      //           cpu6: {
-      //             utilization: '15.0',
-      //           },
-      //           cpu7: {
-      //             utilization: '14.0',
-      //           },
-      //         },
-      //         gpu: {},
-      //         memory: {
-      //           TotalMemory: '24574976',
-      //           UsedMemory: '10483712',
-      //           usage: 42.66011083795158,
-      //         },
-      //         network: {
-      //           tap0: {},
-      //         },
-      //         storage: {
-      //           ufs: {},
-      //         },
-      //       },
-      //       YoctoVM: {
-      //         cpus: {},
-      //         memory: {},
-      //       },
-      //     },
-      //     System: {
-      //       Audio: {
-      //         acc_power: 0,
-      //         current: 0,
-      //         power: 0,
-      //         status: 'OK',
-      //         voltage: 0,
-      //       },
-      //       Camera1: {
-      //         acc_power: 0,
-      //         current: 0,
-      //         power: 0,
-      //         status: 'OK',
-      //         voltage: 0,
-      //       },
-      //       Camera2: {
-      //         acc_power: 0,
-      //         current: 0,
-      //         power: 0,
-      //         status: 'OK',
-      //         voltage: 0,
-      //       },
-      //       Display1: {
-      //         acc_power: 0,
-      //         current: 0,
-      //         power: 0,
-      //         status: 'OK',
-      //         voltage: 0,
-      //       },
-      //       Display2: {
-      //         acc_power: 0,
-      //         current: 0,
-      //         power: 0,
-      //         status: 'OK',
-      //         voltage: 0,
-      //       },
-      //       ETH1: {
-      //         acc_power: 0,
-      //         current: 0,
-      //         power: 0,
-      //         status: 'OK',
-      //         voltage: 0,
-      //       },
-      //       ETH2: {
-      //         acc_power: 0,
-      //         current: 0,
-      //         power: 0,
-      //         status: 'OK',
-      //         voltage: 0,
-      //       },
-      //       Health: {
-      //         Camera1: 'OK',
-      //         Display1: 'OK',
-      //         ETH1: 'ERR',
-      //         MCU0: 'ERR',
-      //         MCU1: 'OK',
-      //         NVMe: 'OK',
-      //         PCIe0: 'OK',
-      //         PCIe1: 'OK',
-      //         PCIeSwitch: 'ERR',
-      //         SWLESS0_0: 'OK',
-      //         SWLESS0_1: 'ERR',
-      //         SWLESS1_0: 'ERR',
-      //         SWLESS1_1: 'ERR',
-      //         SafetyECU: 'OK',
-      //         SoC1: 'OK',
-      //         SoC2: 'OK',
-      //         Zonal0: 'OK',
-      //         Zonal1: 'OK',
-      //       },
-      //       HwMon: {
-      //         enable: 'true',
-      //       },
-      //       NVMe: {
-      //         acc_power: 0,
-      //         current: 0,
-      //         power: 0,
-      //         status: 'OK',
-      //         voltage: 0,
-      //       },
-      //       PCIeSwitch: {
-      //         acc_power: 0,
-      //         current: 0,
-      //         power: 0,
-      //         status: 'OK',
-      //         voltage: 0,
-      //       },
-      //       SoC1: {
-      //         acc_power: 0,
-      //         current: 0,
-      //         power: 0,
-      //         status: 'ERR',
-      //         voltage: 0,
-      //       },
-      //       SoC2: {
-      //         acc_power: 0,
-      //         current: 0,
-      //         power: 0,
-      //         status: 'ERR',
-      //         voltage: 0,
-      //       },
-      //       USB1: {
-      //         acc_power: 0,
-      //         current: 0,
-      //         power: 0,
-      //         status: 'OK',
-      //         voltage: 0,
-      //       },
-      //       USB2: {
-      //         acc_power: 0,
-      //         current: 0,
-      //         power: 0,
-      //         status: 'OK',
-      //         voltage: 0,
-      //       },
-      //       VBAT1: {
-      //         valid: true,
-      //       },
-      //       VBAT2: {
-      //         valid: true,
-      //       },
-      //       acc_power: 0,
-      //       power: 0,
-      //       runningTime: 22139,
-      //     },
-      //   },
-      // };
 
       // data.SystemInfo.System의 각 속성에서 status를 추출하여 modules 배열 생성
       const systemData = data.SystemInfo?.System || {};
@@ -342,8 +86,6 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
             ? (healthData as any)[key]
             : 'UNKNOWN',
       }));
-
-      console.log('Fetched modules:', modules);
 
       // SoC Thermal 데이터 처리 함수
       const processThermalData = (
@@ -405,16 +147,22 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
       // SoC1 Thermal 데이터 업데이트
       const soc1Data = data.SystemInfo?.SoC1;
       if (soc1Data) {
-        const newSoc1Thermal = processThermalData(soc1Data, soc1Thermal);
-        console.log('thermal1 : ', newSoc1Thermal);
+        const newSoc1Thermal = processThermalData(
+          soc1Data,
+          soc1ThermalRef.current,
+        );
+        soc1ThermalRef.current = newSoc1Thermal;
         setSoc1Thermal(newSoc1Thermal);
       }
 
       // SoC2 Thermal 데이터 업데이트
       const soc2Data = data.SystemInfo?.SoC2;
       if (soc2Data) {
-        const newSoc2Thermal = processThermalData(soc2Data, soc2Thermal);
-        console.log('thermal2 :', newSoc2Thermal);
+        const newSoc2Thermal = processThermalData(
+          soc2Data,
+          soc2ThermalRef.current,
+        );
+        soc2ThermalRef.current = newSoc2Thermal;
         setSoc2Thermal(newSoc2Thermal);
       }
 

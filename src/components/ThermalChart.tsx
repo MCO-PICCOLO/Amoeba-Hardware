@@ -76,6 +76,7 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
           <YAxis
             width={40}
             domain={[0, 40]}
+            allowDataOverflow={false}
             axisLine={false}
             tick={{
               fontFamily: 'Pretendard, Arial, sans-serif',
