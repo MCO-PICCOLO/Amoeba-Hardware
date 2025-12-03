@@ -13,20 +13,29 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
     systemArchitecture: {
       systemPower: 0,
       modules: [
-        { name: 'Camera1', powerSupply: 'OK', health: 'OK' },
-        { name: 'Display1', powerSupply: 'OK', health: 'OK' },
-        { name: 'SoC1', powerSupply: 'OK', health: 'OK' },
-        { name: 'SoC2', powerSupply: 'OK', health: 'OK' },
         { name: 'PCIeSwitch', powerSupply: 'OK', health: 'OK' },
+        { name: 'SoC1', powerSupply: 'OK', health: 'OK' },
+        { name: 'Camera1', powerSupply: 'OK', health: 'OK' },
+        {
+          name: 'Display1',
+          powerSupplyAndroid: 'OK',
+          powerSupply: 'OK',
+          health: 'OK',
+        },
+        { name: 'Display1Android', powerSupply: 'OK', health: 'OK' },
         { name: 'ETH1', powerSupply: 'OK', health: 'OK' },
-        { name: 'SafetyMCU', powerSupply: 'OK', health: 'OK' },
-        { name: 'NVMe', powerSupply: 'OK', health: 'OK' },
+        { name: 'SoC2', powerSupply: 'OK', health: 'OK' },
+        { name: 'Camera2', powerSupply: 'OK', health: 'OK' },
+        { name: 'Display2', powerSupply: 'OK', health: 'OK' },
+        { name: 'ETH2', powerSupply: 'OK', health: 'OK' },
+        // { name: 'SafetyMCU', powerSupply: 'OK', health: 'OK' },
+        // { name: 'NVMe', powerSupply: 'OK', health: 'OK' },
         { name: 'Zonal0', health: 'OK' },
-        { name: 'Zonal1', health: 'OK' },
         { name: 'MCU0', health: 'OK' },
-        { name: 'MCU1', health: 'OK' },
         { name: 'SWLESS0_0', health: 'OK' },
         { name: 'SWLESS0_1', health: 'OK' },
+        { name: 'Zonal1', health: 'OK' },
+        { name: 'MCU1', health: 'OK' },
         { name: 'SWLESS1_0', health: 'OK' },
         { name: 'SWLESS1_1', health: 'OK' },
       ],
@@ -77,15 +86,21 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
           },
           System: {
             Camera1: { status: 'OK', power: 10, current: 1, voltage: 12 },
-            Display1: { status: 'OK', power: 15, current: 1.5, voltage: 12 },
-            SoC1: { status: 'OK', power: 25, current: 2.5, voltage: 12 },
+            Display1: {
+              android_status: 'OK',
+              status: 'OK',
+              power: 15,
+              current: 1.5,
+              voltage: 12,
+            },
+            SoC1: { status: 'WARN', power: 25, current: 2.5, voltage: 12 },
             SoC2: { status: 'OK', power: 25, current: 2.5, voltage: 12 },
             PCIeSwitch: { status: 'OK', power: 8, current: 0.8, voltage: 12 },
             ETH1: { status: 'OK', power: 5, current: 0.5, voltage: 12 },
             SafetyMCU: { status: 'OK', power: 3, current: 0.3, voltage: 12 },
             NVMe: { status: 'OK', power: 7, current: 0.7, voltage: 12 },
             Health: {
-              Camera1: 'OK',
+              Camera1: 'ERROR',
               Display1: 'OK',
               SoC1: 'OK',
               SoC2: 'OK',
@@ -134,10 +149,21 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
           },
           System: {
             Camera1: { status: 'OK', power: 11, current: 1.1, voltage: 12 },
-            Display1: { status: 'OK', power: 16, current: 1.6, voltage: 12 },
+            Display1: {
+              android_status: 'WARN',
+              status: 'OK',
+              power: 16,
+              current: 1.6,
+              voltage: 12,
+            },
             SoC1: { status: 'ERR', power: 28, current: 2.8, voltage: 12 },
             SoC2: { status: 'OK', power: 26, current: 2.6, voltage: 12 },
-            PCIeSwitch: { status: 'ERR', power: 9, current: 0.9, voltage: 12 },
+            PCIeSwitch: {
+              status: 'ERROR',
+              power: 9,
+              current: 0.9,
+              voltage: 12,
+            },
             ETH1: { status: 'ERR', power: 6, current: 0.6, voltage: 12 },
             SafetyMCU: { status: 'OK', power: 3, current: 0.3, voltage: 12 },
             NVMe: { status: 'OK', power: 8, current: 0.8, voltage: 12 },
@@ -146,7 +172,7 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
               Display1: 'OK',
               SoC1: 'OK',
               SoC2: 'OK',
-              PCIeSwitch: 'ERR',
+              PCIeSwitch: 'ERROR',
               ETH1: 'ERR',
               SafetyMCU: 'OK',
               NVMe: 'OK',
@@ -191,10 +217,16 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
           },
           System: {
             Camera1: { status: 'OK', power: 10, current: 1, voltage: 12 },
-            Display1: { status: 'OK', power: 15, current: 1.5, voltage: 12 },
+            Display1: {
+              android_status: 'ERROR',
+              status: 'OK',
+              power: 15,
+              current: 1.5,
+              voltage: 12,
+            },
             SoC1: { status: 'OK', power: 26, current: 2.6, voltage: 12 },
             SoC2: { status: 'OK', power: 25, current: 2.5, voltage: 12 },
-            PCIeSwitch: { status: 'OK', power: 8, current: 0.8, voltage: 12 },
+            PCIeSwitch: { status: 'WARN', power: 8, current: 0.8, voltage: 12 },
             ETH1: { status: 'OK', power: 5, current: 0.5, voltage: 12 },
             SafetyMCU: { status: 'OK', power: 3, current: 0.3, voltage: 12 },
             NVMe: { status: 'OK', power: 7, current: 0.7, voltage: 12 },
@@ -233,8 +265,8 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
     const startTime = Date.now();
 
     try {
-      const data = await getSystemInfo();
-      // const data = getTestSampleData();
+      // const data = await getSystemInfo();
+      const data = getTestSampleData();
 
       // data.SystemInfo.System의 각 속성에서 status를 추출하여 modules 배열 생성
       const systemData = data.SystemInfo?.System || {};
@@ -254,6 +286,17 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
         }
       });
 
+      // System에서 android_status가 있는 모듈 수집
+      Object.keys(systemData).forEach((key) => {
+        if (
+          key !== 'power' &&
+          key !== 'Health' &&
+          (systemData as any)[key]?.android_status !== undefined
+        ) {
+          moduleNames.add(key);
+        }
+      });
+
       // Health에 정의된 모듈도 추가
       Object.keys(healthData).forEach((key) => {
         moduleNames.add(key);
@@ -265,6 +308,10 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
         powerSupply:
           (systemData as any)[key]?.status !== undefined
             ? (systemData as any)[key].status
+            : undefined,
+        powerSupplyAndroid:
+          (systemData as any)[key]?.android_status !== undefined
+            ? (systemData as any)[key].android_status
             : undefined,
         health:
           (healthData as any)[key] !== undefined

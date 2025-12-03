@@ -1,9 +1,10 @@
 #system-architecture {
   position: relative;
-  width: 1086px;
-  height: 826px;
-  left: 60px;
-  top: 194px;
+  width: 1087px;
+  height: 831px;
+  left: 59px;
+  top: 189px;
+
   background-image: url('../assets/images/system-architecture/bg.png');
 }
 
@@ -187,6 +188,61 @@
   flex: none;
   order: 1;
   align-self: stretch;
+}
+
+#system-architecture .health24 {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 24px;
+  height: 24px;
+
+  background: #16b56b;
+  border: 2.66667px solid #242849;
+  border-radius: 100%;
+}
+
+#system-architecture .health24.err {
+  background: #f3474a;
+  border: 2px solid #242849;
+}
+
+#system-architecture .health18 {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 18px;
+  height: 18px;
+
+  background: #16b56b;
+  border: 2.66667px solid #242849;
+  border-radius: 100%;
+}
+
+#system-architecture .health18.err {
+  background: #f3474a;
+  border: 2px solid #242849;
+}
+
+#system-architecture .ps16 {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 60px;
+  top: 5.5px;
+
+  background: #16b56b;
+  border-radius: 100%;
+}
+
+#system-architecture .ps16.err {
+  background: #f3474a;
+}
+
+#system-architecture .ps16.warn {
+  background: #ffc60a;
 }
 
 #system-architecture .module .module-info .module-ps {

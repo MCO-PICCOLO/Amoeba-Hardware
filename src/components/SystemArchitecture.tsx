@@ -15,12 +15,34 @@ const SystemArchitecture = ({
   // 모듈의 에러 상태를 체크하는 함수
   const getModuleErrorStatus = (moduleName: string) => {
     const module = modules.find((m) => m.name === moduleName);
-    const hasPowerError = module?.powerSupply && module.powerSupply !== 'OK';
+    let powerSupplyStatus: 'OK' | 'ERROR' | 'WARN' | undefined = undefined;
+    if (module && module.powerSupply) {
+      if (module.powerSupply === 'ERROR') powerSupplyStatus = 'ERROR';
+      else if (module.powerSupply === 'WARN') powerSupplyStatus = 'WARN';
+      else powerSupplyStatus = 'OK';
+    }
+    let powerSupplyAndroidStatus: 'OK' | 'ERROR' | 'WARN' | undefined =
+      undefined;
+    if (module && module.powerSupplyAndroid) {
+      if (module.powerSupplyAndroid === 'ERROR')
+        powerSupplyAndroidStatus = 'ERROR';
+      else if (module.powerSupplyAndroid === 'WARN')
+        powerSupplyAndroidStatus = 'WARN';
+      else powerSupplyAndroidStatus = 'OK';
+    }
+    const hasPowerError = powerSupplyStatus === 'ERROR';
+    const hasPowerWarn = powerSupplyStatus === 'WARN';
+    const hasPowerAndroidError = powerSupplyAndroidStatus === 'ERROR';
+    const hasPowerAndroidWarn = powerSupplyAndroidStatus === 'WARN';
     const hasHealthError = module?.health !== 'OK';
     return {
       hasPowerError,
+      hasPowerWarn,
+      hasPowerAndroidError,
+      hasPowerAndroidWarn,
       hasHealthError,
       hasAnyError: hasPowerError || hasHealthError,
+      powerSupplyStatus,
     };
   };
 
@@ -36,446 +58,213 @@ const SystemArchitecture = ({
           </div>
         </div>
       </div>
+      {/* PCIeSwitch */}
       <div
-        className={`module ${
-          getModuleErrorStatus('PCIeSwitch').hasAnyError ? 'error' : ''
+        className={`health24 ${
+          getModuleErrorStatus('PCIeSwitch').hasHealthError ? 'err' : ''
         }`}
-        style={{
-          position: 'absolute',
-          top: '20px',
-          left: '440px',
-          width: '205px',
-          height: '131px',
-        }}
-      >
-        <div className="module-name">PCIe swith</div>
-        <div className="module-info">
-          <div
-            className={`module-ps ${
-              getModuleErrorStatus('PCIeSwitch').hasPowerError ? 'err' : ''
-            }`}
-          >
-            Power Supply:
-          </div>
-          <div
-            className={`module-health ${
-              getModuleErrorStatus('PCIeSwitch').hasHealthError ? 'err' : ''
-            }`}
-          >
-            Health:
-          </div>
-        </div>
-      </div>
+        style={{ position: 'absolute', top: '49px', left: '560px' }}
+      />
       <div
-        className={`module ${
-          getModuleErrorStatus('NVMe').hasAnyError ? 'error' : ''
+        className={`ps16 ${
+          getModuleErrorStatus('PCIeSwitch').hasPowerError
+            ? 'err'
+            : getModuleErrorStatus('PCIeSwitch').hasPowerWarn
+            ? 'warn'
+            : ''
         }`}
-        style={{
-          position: 'absolute',
-          top: '20px',
-          left: '778px',
-          width: '205px',
-          height: '131px',
-        }}
-      >
-        <div className="module-name">NVMe</div>
-        <div className="module-info">
-          <div
-            className={`module-ps ${
-              getModuleErrorStatus('NVMe').hasPowerError ? 'err' : ''
-            }`}
-          >
-            Power Supply:
-          </div>
-          <div
-            className={`module-health ${
-              getModuleErrorStatus('NVMe').hasHealthError ? 'err' : ''
-            }`}
-          >
-            Health:
-          </div>
-        </div>
-      </div>
+        style={{ position: 'absolute', top: '133.5px', left: '560px' }}
+      />
+      {/* SoC1 */}
       <div
-        className={`module ${
-          getModuleErrorStatus('SoC1').hasAnyError ? 'error' : ''
+        className={`health24 ${
+          getModuleErrorStatus('SoC1').hasHealthError ? 'err' : ''
         }`}
-        style={{
-          position: 'absolute',
-          top: '180px',
-          left: '89px',
-          width: '225px',
-          height: '151px',
-        }}
-      >
-        <div className="module-name">SoC1</div>
-        <div className="module-info">
-          <div
-            className={`module-ps ${
-              getModuleErrorStatus('SoC1').hasPowerError ? 'err' : ''
-            }`}
-          >
-            Power Supply:
-          </div>
-          <div
-            className={`module-health ${
-              getModuleErrorStatus('SoC1').hasHealthError ? 'err' : ''
-            }`}
-          >
-            Health:
-          </div>
-        </div>
-      </div>
+        style={{ position: 'absolute', top: '136px', left: '268px' }}
+      />
       <div
-        className={`module ${
-          getModuleErrorStatus('SafetyMCU').hasAnyError ? 'error' : ''
+        className={`ps16 ${
+          getModuleErrorStatus('SoC1').hasPowerError
+            ? 'err'
+            : getModuleErrorStatus('SoC1').hasPowerWarn
+            ? 'warn'
+            : ''
         }`}
-        style={{
-          position: 'absolute',
-          top: '190px',
-          left: '440px',
-          width: '205px',
-          height: '131px',
-        }}
-      >
-        <div className="module-name">Saftey MCU</div>
-        <div className="module-info">
-          <div
-            className={`module-ps ${
-              getModuleErrorStatus('SafetyMCU').hasPowerError ? 'err' : ''
-            }`}
-          >
-            Power Supply:
-          </div>
-          <div
-            className={`module-health ${
-              getModuleErrorStatus('SafetyMCU').hasHealthError ? 'err' : ''
-            }`}
-          >
-            Health:
-          </div>
-        </div>
-      </div>
+        style={{ position: 'absolute', top: '267px', left: '260px' }}
+      />
+      {/* Camera1 */}
       <div
-        className={`module ${
-          getModuleErrorStatus('SoC2').hasAnyError ? 'error' : ''
+        className={`health24 ${
+          getModuleErrorStatus('Camera1').hasHealthError ? 'err' : ''
         }`}
-        style={{
-          position: 'absolute',
-          top: '180px',
-          left: '768px',
-          width: '225px',
-          height: '151px',
-        }}
-      >
-        <div className="module-name">SoC2</div>
-        <div className="module-info">
-          <div
-            className={`module-ps ${
-              getModuleErrorStatus('SoC2').hasPowerError ? 'err' : ''
-            }`}
-          >
-            Power Supply:
-          </div>
-          <div
-            className={`module-health ${
-              getModuleErrorStatus('SoC2').hasHealthError ? 'err' : ''
-            }`}
-          >
-            Health:
-          </div>
-        </div>
-      </div>
+        style={{ position: 'absolute', top: '335px', left: '178px' }}
+      />
       <div
-        className={`module ${
-          getModuleErrorStatus('Camera1').hasAnyError ? 'error' : ''
+        className={`ps16 ${
+          getModuleErrorStatus('Camera1').hasPowerError
+            ? 'err'
+            : getModuleErrorStatus('Camera1').hasPowerWarn
+            ? 'warn'
+            : ''
         }`}
-        style={{
-          position: 'absolute',
-          top: '360px',
-          left: '101px',
-          width: '205px',
-          height: '131px',
-        }}
-      >
-        <div className="module-name">Camera1</div>
-        <div className="module-info">
-          <div
-            className={`module-ps ${
-              getModuleErrorStatus('Camera1').hasPowerError ? 'err' : ''
-            }`}
-          >
-            Power Supply:
-          </div>
-          <div
-            className={`module-health ${
-              getModuleErrorStatus('Camera1').hasHealthError ? 'err' : ''
-            }`}
-          >
-            Health:
-          </div>
-        </div>
-      </div>
+        style={{ position: 'absolute', top: '424px', left: '184px' }}
+      />
+      {/* Display1 */}
       <div
-        className={`module ${
-          getModuleErrorStatus('ETH1').hasAnyError ? 'error' : ''
+        className={`ps16 ${
+          getModuleErrorStatus('Display1').hasPowerError
+            ? 'err'
+            : getModuleErrorStatus('Display1').hasPowerWarn
+            ? 'warn'
+            : ''
         }`}
-        style={{
-          position: 'absolute',
-          top: '360px',
-          left: '440px',
-          width: '205px',
-          height: '131px',
-        }}
-      >
-        <div className="module-name">ETH1</div>
-        <div className="module-info">
-          <div
-            className={`module-ps ${
-              getModuleErrorStatus('ETH1').hasPowerError ? 'err' : ''
-            }`}
-          >
-            Power Supply:
-          </div>
-          <div
-            className={`module-health ${
-              getModuleErrorStatus('ETH1').hasHealthError ? 'err' : ''
-            }`}
-          >
-            Health:
-          </div>
-        </div>
-      </div>
+        style={{ position: 'absolute', top: '424px', left: '337px' }}
+      />
       <div
-        className={`module ${
-          getModuleErrorStatus('Display1').hasAnyError ? 'error' : ''
+        className={`ps16 ${
+          getModuleErrorStatus('Display1').hasPowerAndroidError
+            ? 'err'
+            : getModuleErrorStatus('Display1').hasPowerAndroidWarn
+            ? 'warn'
+            : ''
         }`}
-        style={{
-          position: 'absolute',
-          top: '360px',
-          left: '778px',
-          width: '205px',
-          height: '131px',
-        }}
-      >
-        <div className="module-name">Display1</div>
-        <div className="module-info">
-          <div
-            className={`module-ps ${
-              getModuleErrorStatus('Display1').hasPowerError ? 'err' : ''
-            }`}
-          >
-            Power Supply:
-          </div>
-          <div
-            className={`module-health ${
-              getModuleErrorStatus('Display1').hasHealthError ? 'err' : ''
-            }`}
-          >
-            Health:
-          </div>
-        </div>
-      </div>
-
+        style={{ position: 'absolute', top: '453px', left: '337px' }}
+      />
+      {/* ETH1 */}
       <div
-        className={`module ${
-          getModuleErrorStatus('Zonal0').hasAnyError ? 'error' : ''
+        className={`health24 ${
+          getModuleErrorStatus('ETH1').hasHealthError ? 'err' : ''
         }`}
-        style={{
-          position: 'absolute',
-          top: '561px',
-          left: '152px',
-          width: '225px',
-          height: '114px',
-        }}
-      >
-        <div className="module-name">Zonal0</div>
-        <div className="module-info">
-          <div
-            className={`module-health ${
-              getModuleErrorStatus('Zonal0').hasHealthError ? 'err' : ''
-            }`}
-          >
-            Health:
-          </div>
-        </div>
-      </div>
+        style={{ position: 'absolute', top: '328px', left: '462px' }}
+      />
       <div
-        className={`module ${
-          getModuleErrorStatus('SWLESS0_0').hasAnyError ? 'error' : ''
+        className={`ps16 ${
+          getModuleErrorStatus('ETH1').hasPowerAndroidError
+            ? 'err'
+            : getModuleErrorStatus('ETH1').hasPowerAndroidWarn
+            ? 'warn'
+            : ''
         }`}
-        style={{
-          position: 'absolute',
-          top: '707px',
-          left: '30px',
-          width: '138px',
-          height: '99px',
-        }}
-      >
-        <div className="module-name">SW-less</div>
-        <div className="module-info">
-          <div
-            className={`module-health ${
-              getModuleErrorStatus('SWLESS0_0').hasHealthError ? 'err' : ''
-            }`}
-          >
-            Health:
-          </div>
-        </div>
-      </div>
+        style={{ position: 'absolute', top: '442px', left: '470px' }}
+      />
+      {/* SoC2 */}
       <div
-        className={`module ${
-          getModuleErrorStatus('SWLESS0_1').hasAnyError ? 'error' : ''
+        className={`health24 ${
+          getModuleErrorStatus('SoC2').hasHealthError ? 'err' : ''
         }`}
-        style={{
-          position: 'absolute',
-          top: '707px',
-          left: '202px',
-          width: '138px',
-          height: '99px',
-        }}
-      >
-        <div className="module-name">SW-less</div>
-        <div className="module-info">
-          <div
-            className={`module-health ${
-              getModuleErrorStatus('SWLESS0_1').hasHealthError ? 'err' : ''
-            }`}
-          >
-            Health:
-          </div>
-        </div>
-      </div>
+        style={{ position: 'absolute', top: '136px', left: '869px' }}
+      />
       <div
-        className={`module ${
-          getModuleErrorStatus('MCU0').hasAnyError ? 'error' : ''
+        className={`ps16 ${
+          getModuleErrorStatus('SoC2').hasPowerError
+            ? 'err'
+            : getModuleErrorStatus('SoC2').hasPowerWarn
+            ? 'warn'
+            : ''
         }`}
-        style={{
-          position: 'absolute',
-          top: '707px',
-          left: '360px',
-          width: '138px',
-          height: '99px',
-        }}
-      >
-        <div className="module-name">MCU</div>
-        <div className="module-info">
-          <div
-            className={`module-health ${
-              getModuleErrorStatus('MCU0').hasHealthError ? 'err' : ''
-            }`}
-          >
-            Health:
-          </div>
-        </div>
-      </div>
-
+        style={{ position: 'absolute', top: '267px', left: '861px' }}
+      />
+      {/* Camera2 */}
       <div
-        className={`module ${
-          getModuleErrorStatus('Zonal1').hasAnyError ? 'error' : ''
+        className={`health24 ${
+          getModuleErrorStatus('Camera2').hasHealthError ? 'err' : ''
         }`}
-        style={{
-          position: 'absolute',
-          top: '561px',
-          left: '710px',
-          width: '225px',
-          height: '114px',
-        }}
-      >
-        <div className="module-name">Zonal</div>
-        <div className="module-info">
-          <div
-            className={`module-health ${
-              getModuleErrorStatus('Zonal1').hasHealthError ? 'err' : ''
-            }`}
-          >
-            Health:
-          </div>
-        </div>
-      </div>
+        style={{ position: 'absolute', top: '335px', left: '782px' }}
+      />
       <div
-        className={`module ${
-          getModuleErrorStatus('SWLESS1_0').hasAnyError ? 'error' : ''
+        className={`ps16 ${
+          getModuleErrorStatus('Camera2').hasPowerError
+            ? 'err'
+            : getModuleErrorStatus('Camera2').hasPowerWarn
+            ? 'warn'
+            : ''
         }`}
-        style={{
-          position: 'absolute',
-          top: '707px',
-          left: '588px',
-          width: '138px',
-          height: '99px',
-        }}
-      >
-        <div className="module-name">SW-less</div>
-        <div className="module-info">
-          <div
-            className={`module-health ${
-              getModuleErrorStatus('SWLESS1_0').hasHealthError ? 'err' : ''
-            }`}
-          >
-            Health:
-          </div>
-        </div>
-      </div>
+        style={{ position: 'absolute', top: '423px', left: '785px' }}
+      />
+      {/* Display2 */}
       <div
-        className={`module ${
-          getModuleErrorStatus('SWLESS1_1').hasAnyError ? 'error' : ''
+        className={`ps16 ${
+          getModuleErrorStatus('Display2').hasPowerError
+            ? 'err'
+            : getModuleErrorStatus('Display2').hasPowerWarn
+            ? 'warn'
+            : ''
         }`}
-        style={{
-          position: 'absolute',
-          top: '707px',
-          left: '760px',
-          width: '138px',
-          height: '99px',
-        }}
-      >
-        <div className="module-name">SW-less</div>
-        <div className="module-info">
-          <div
-            className={`module-health ${
-              getModuleErrorStatus('SWLESS1_1').hasHealthError ? 'err' : ''
-            }`}
-          >
-            Health:
-          </div>
-        </div>
-      </div>
+        style={{ position: 'absolute', top: '423px', left: '938px' }}
+      />
+      {/* ETH2 */}
       <div
-        className={`module ${
-          getModuleErrorStatus('MCU1').hasAnyError ? 'error' : ''
+        className={`health24 ${
+          getModuleErrorStatus('ETH2').hasHealthError ? 'err' : ''
         }`}
-        style={{
-          position: 'absolute',
-          top: '707px',
-          left: '918px',
-          width: '138px',
-          height: '99px',
-        }}
-      >
-        <div className="module-name">MCU</div>
-        <div className="module-info">
-          <div
-            className={`module-health ${
-              getModuleErrorStatus('MCU1').hasHealthError ? 'err' : ''
-            }`}
-          >
-            Health:
-          </div>
-        </div>
-      </div>
-
-      {/* <div className="module-status">
-        {modules.map((module) => (
-          <div key={module.name} className="module">
-            <div className="module-name">{module.name}</div>
-            {module.powerSupply && (
-              <div className="module-power">
-                Power Supply: {module.powerSupply}
-              </div>
-            )}
-            <div className="module-health">Health: {module.health}</div>
-          </div>
-        ))}
-      </div> */}
+        style={{ position: 'absolute', top: '328px', left: '644px' }}
+      />
+      <div
+        className={`ps16 ${
+          getModuleErrorStatus('ETH2').hasPowerAndroidError
+            ? 'err'
+            : getModuleErrorStatus('ETH2').hasPowerAndroidWarn
+            ? 'warn'
+            : ''
+        }`}
+        style={{ position: 'absolute', top: '442px', left: '652px' }}
+      />
+      {/* Zonal0 */}
+      <div
+        className={`health24 ${
+          getModuleErrorStatus('Zonal0').hasHealthError ? 'err' : ''
+        }`}
+        style={{ position: 'absolute', top: '570px', left: '280px' }}
+      />
+      {/* MCU0 */}
+      <div
+        className={`health18 ${
+          getModuleErrorStatus('MCU0').hasHealthError ? 'err' : ''
+        }`}
+        style={{ position: 'absolute', top: '732px', left: '107px' }}
+      />
+      {/* SWLESS0_0 */}
+      <div
+        className={`health18 ${
+          getModuleErrorStatus('SWLESS0_0').hasHealthError ? 'err' : ''
+        }`}
+        style={{ position: 'absolute', top: '732px', left: '275px' }}
+      />
+      {/* SWLESS0_1 */}
+      <div
+        className={`health18 ${
+          getModuleErrorStatus('SWLESS0_1').hasHealthError ? 'err' : ''
+        }`}
+        style={{ position: 'absolute', top: '732px', left: '443px' }}
+      />
+      {/* Zonal1 */}
+      <div
+        className={`health24 ${
+          getModuleErrorStatus('Zonal1').hasHealthError ? 'err' : ''
+        }`}
+        style={{ position: 'absolute', top: '570px', left: '835px' }}
+      />
+      {/* MCU1 */}
+      <div
+        className={`health18 ${
+          getModuleErrorStatus('MCU1').hasHealthError ? 'err' : ''
+        }`}
+        style={{ position: 'absolute', top: '732px', left: '662px' }}
+      />
+      {/* SWLESS1_0 */}
+      <div
+        className={`health18 ${
+          getModuleErrorStatus('SWLESS1_0').hasHealthError ? 'err' : ''
+        }`}
+        style={{ position: 'absolute', top: '732px', left: '830px' }}
+      />
+      {/* SWLESS1_1 */}
+      <div
+        className={`health18 ${
+          getModuleErrorStatus('SWLESS1_1').hasHealthError ? 'err' : ''
+        }`}
+        style={{ position: 'absolute', top: '732px', left: '998px' }}
+      />{' '}
     </div>
   );
 };

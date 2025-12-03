@@ -1,7 +1,8 @@
 export interface ModuleStatus {
   name: string;
   powerSupply?: string;
-  health: string;
+  powerSupplyAndroid?: string;
+  health?: string;
 }
 
 export interface SystemArchitecture {
