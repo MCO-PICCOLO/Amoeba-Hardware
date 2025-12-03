@@ -265,8 +265,8 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
     const startTime = Date.now();
 
     try {
-      // const data = await getSystemInfo();
-      const data = getTestSampleData();
+      const data = await getSystemInfo();
+      // const data = getTestSampleData();
 
       // data.SystemInfo.System의 각 속성에서 status를 추출하여 modules 배열 생성
       const systemData = data.SystemInfo?.System || {};

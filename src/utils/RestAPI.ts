@@ -15,7 +15,7 @@ export const getSystemInfo = async () => {
       'Calling getSystemInfo API...',
       import.meta.env.VITE_API_SERVER_IP,
     );
-    const response = await networkApi.get('/api');
+    const response = await networkApi.get('/api/items/');
     console.log('getSystemInfo response:', response.data);
     return response.data;
   } catch (error) {

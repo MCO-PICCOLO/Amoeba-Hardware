@@ -66,11 +66,11 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
     });
   });
 
-  const maxValue = allValues.length > 0 ? Math.max(...allValues) : 80;
+  const maxValue = allValues.length > 0 ? Math.max(...allValues) : 70;
 
-  let yMax = Math.max(80, Math.ceil(maxValue / 20) * 20);
+  let yMax = Math.max(70, Math.ceil(maxValue / 20) * 20);
 
-  const yAxisDomain = [0, yMax];
+  const yAxisDomain = [20, yMax];
   const yAxisTicks = [];
   for (let i = 0; i <= yMax; i += 20) {
     yAxisTicks.push(i);
