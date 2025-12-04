@@ -1,0 +1,121 @@
+#cpu-util-chart {
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  gap: 10px;
+  isolation: isolate;
+
+  position: relative;
+  width: 612px;
+  height: 242px;
+
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 20px;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+}
+
+#cpu-util-chart .cpu-util-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 572px;
+  /* margin-bottom: 10px; */
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+#cpu-util-chart .cpu-util-title {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 31px;
+  color: #1d1d1d;
+}
+
+#cpu-util-chart .cpu-util-legend {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+#cpu-util-chart .cpu-util-legend .legend-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+#cpu-util-chart .cpu-util-legend .legend-icon {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+#cpu-util-chart .cpu-util-legend .legend-label {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #1d1d1d;
+}
+
+#cpu-util-chart .inner-contents {
+  /* soc1_therminal */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 16px;
+  isolation: isolate;
+
+  width: 572px;
+  height: 156px;
+
+  /* position: absolute; */
+  margin-left: 121px;
+  top: 61px;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+  z-index: 1;
+}
+
+#cpu-util-chart .cpu-util-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+#cpu-util-chart .cpu-util-label {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #1d1d1d;
+}
+
+#cpu-util-chart .cpu-util-bar {
+  display: flex;
+  align-items: center;
+  width: 370px;
+}

@@ -15,19 +15,19 @@ const ThermalMonitoring = ({
 }: ThermalMonitoringProps) => {
   return (
     <div id="thermal-monitoring" {...props}>
-      <div className="inner-frame">
-        <div className="title">SoC Level Thermal Status Monitoring</div>
-        <ThermalChart
-          title="SoC1 Thermal"
-          data={soc1Data}
-          style={{ left: '0px', top: '61px' }}
-        />
-        <ThermalChart
-          title="SoC2 Thermal"
-          data={soc2Data}
-          style={{ left: '0px', top: '493px' }}
-        />
-      </div>
+      {/* <div className="inner-frame">
+        <div className="title">SoC Level Thermal Status Monitoring</div> */}
+      <ThermalChart
+        title="SoC1 Thermal Status"
+        data={soc1Data}
+        style={{ position: 'absolute', left: '0px', top: '0px' }}
+      />
+      <ThermalChart
+        title="SoC2 Thermal Status"
+        data={soc2Data}
+        style={{ position: 'absolute', left: '0px', top: '329px' }}
+      />
+      {/* </div> */}
     </div>
   );
 };

@@ -9,9 +9,10 @@
   padding: 30px 20px;
   gap: 10px;
   isolation: isolate;
+  position: relative;
 
   width: 612px;
-  height: 400px;
+  height: 309px;
 
   background: rgba(255, 255, 255, 0.7);
   border-radius: 20px;
@@ -22,25 +23,73 @@
   flex-grow: 0;
 }
 
-.thermal-chart .chart-title {
+.thermal-chart .chart-title-legend {
   display: flex;
   flex-direction: row;
-  align-items: left;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 15px;
+  left: 30px;
+  width: 572px;
+  /* gap: 40px; */
+  z-index: 10;
+}
+
+.thermal-chart .chart-title {
+  /* title_area */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   padding: 0px;
   gap: 12.12px;
 
-  width: 175px;
-  height: 29px;
+  height: 31px;
 
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 500;
-  font-size: 24px;
-  line-height: 29px;
+  font-size: 26px;
+  line-height: 31px;
+
   color: #1d1d1d;
 
   /* Inside auto layout */
   flex: none;
   order: 0;
   flex-grow: 0;
+}
+
+.thermal-chart .chart-legend {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+}
+
+.thermal-chart .legend-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+.thermal-chart .legend-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 6px solid currentColor;
+  background: transparent;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.thermal-chart .legend-label {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  color: #1d1d1d;
 }

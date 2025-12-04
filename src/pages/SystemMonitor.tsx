@@ -5,6 +5,7 @@ import './SystemMonitor.css';
 import type { SystemInfo, ThermalMonitoringData } from '../utils/Data';
 import { getSystemInfo } from '../utils/RestAPI';
 import ThermalMonitoring from '../components/ThermalMonitoring';
+import CpuUtilChart from '../components/CpuUtilChart';
 
 interface SystemMonitorProps {}
 
@@ -49,6 +50,8 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
   const [soc2Thermal, setSoc2Thermal] = useState<ThermalMonitoringData>({
     thermalStatus: [],
   });
+  const [cpu1Value, setCpu1Value] = useState<number>(0);
+  const [cpu2Value, setCpu2Value] = useState<number>(0);
 
   const timeoutRef = useRef<number | null>(null);
   const sampleIndexRef = useRef<number>(0);
@@ -70,6 +73,26 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
                 GPU: 55 + Math.random() * 20,
                 NPU: 60 + Math.random() * 15,
               },
+              cpus: {
+                cpu0: { utilization: 65 + Math.random() * 10 },
+                cpu1: { utilization: 62 + Math.random() * 10 },
+                cpu2: { utilization: 68 + Math.random() * 10 },
+                cpu3: { utilization: 61 + Math.random() * 10 },
+                cpu4: { utilization: 70 + Math.random() * 10 },
+                cpu5: { utilization: 64 + Math.random() * 10 },
+                cpu6: { utilization: 67 + Math.random() * 10 },
+                cpu7: { utilization: 63 + Math.random() * 10 },
+                cpu8: { utilization: 66 + Math.random() * 10 },
+                cpu9: { utilization: 62 + Math.random() * 10 },
+                cpu10: { utilization: 69 + Math.random() * 10 },
+                cpu11: { utilization: 65 + Math.random() * 10 },
+                cpu12: { utilization: 71 + Math.random() * 10 },
+                cpu13: { utilization: 64 + Math.random() * 10 },
+                cpu14: { utilization: 68 + Math.random() * 10 },
+                cpu15: { utilization: 63 + Math.random() * 10 },
+                cpu16: { utilization: 70 + Math.random() * 10 },
+                cpu17: { utilization: 65 + Math.random() * 10 },
+              },
             },
           },
           SoC2: {
@@ -81,6 +104,26 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
                 CpuCluster2: { avg: 38 + Math.random() * 7 },
                 GPU: 50 + Math.random() * 18,
                 NPU: 55 + Math.random() * 12,
+              },
+              cpus: {
+                cpu0: { utilization: 55 + Math.random() * 10 },
+                cpu1: { utilization: 52 + Math.random() * 10 },
+                cpu2: { utilization: 58 + Math.random() * 10 },
+                cpu3: { utilization: 51 + Math.random() * 10 },
+                cpu4: { utilization: 60 + Math.random() * 10 },
+                cpu5: { utilization: 54 + Math.random() * 10 },
+                cpu6: { utilization: 57 + Math.random() * 10 },
+                cpu7: { utilization: 53 + Math.random() * 10 },
+                cpu8: { utilization: 56 + Math.random() * 10 },
+                cpu9: { utilization: 52 + Math.random() * 10 },
+                cpu10: { utilization: 59 + Math.random() * 10 },
+                cpu11: { utilization: 55 + Math.random() * 10 },
+                cpu12: { utilization: 61 + Math.random() * 10 },
+                cpu13: { utilization: 54 + Math.random() * 10 },
+                cpu14: { utilization: 58 + Math.random() * 10 },
+                cpu15: { utilization: 53 + Math.random() * 10 },
+                cpu16: { utilization: 60 + Math.random() * 10 },
+                cpu17: { utilization: 55 + Math.random() * 10 },
               },
             },
           },
@@ -133,6 +176,26 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
                 GPU: 60 + Math.random() * 25,
                 NPU: 65 + Math.random() * 18,
               },
+              cpus: {
+                cpu0: { utilization: 72 + Math.random() * 10 },
+                cpu1: { utilization: 70 + Math.random() * 10 },
+                cpu2: { utilization: 75 + Math.random() * 10 },
+                cpu3: { utilization: 71 + Math.random() * 10 },
+                cpu4: { utilization: 78 + Math.random() * 10 },
+                cpu5: { utilization: 73 + Math.random() * 10 },
+                cpu6: { utilization: 76 + Math.random() * 10 },
+                cpu7: { utilization: 72 + Math.random() * 10 },
+                cpu8: { utilization: 77 + Math.random() * 10 },
+                cpu9: { utilization: 71 + Math.random() * 10 },
+                cpu10: { utilization: 79 + Math.random() * 10 },
+                cpu11: { utilization: 74 + Math.random() * 10 },
+                cpu12: { utilization: 80 + Math.random() * 10 },
+                cpu13: { utilization: 73 + Math.random() * 10 },
+                cpu14: { utilization: 76 + Math.random() * 10 },
+                cpu15: { utilization: 72 + Math.random() * 10 },
+                cpu16: { utilization: 78 + Math.random() * 10 },
+                cpu17: { utilization: 74 + Math.random() * 10 },
+              },
             },
           },
           SoC2: {
@@ -144,6 +207,26 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
                 CpuCluster2: { avg: 41 + Math.random() * 9 },
                 GPU: 54 + Math.random() * 20,
                 NPU: 58 + Math.random() * 15,
+              },
+              cpus: {
+                cpu0: { utilization: 62 + Math.random() * 10 },
+                cpu1: { utilization: 60 + Math.random() * 10 },
+                cpu2: { utilization: 65 + Math.random() * 10 },
+                cpu3: { utilization: 61 + Math.random() * 10 },
+                cpu4: { utilization: 68 + Math.random() * 10 },
+                cpu5: { utilization: 63 + Math.random() * 10 },
+                cpu6: { utilization: 66 + Math.random() * 10 },
+                cpu7: { utilization: 62 + Math.random() * 10 },
+                cpu8: { utilization: 67 + Math.random() * 10 },
+                cpu9: { utilization: 61 + Math.random() * 10 },
+                cpu10: { utilization: 69 + Math.random() * 10 },
+                cpu11: { utilization: 64 + Math.random() * 10 },
+                cpu12: { utilization: 70 + Math.random() * 10 },
+                cpu13: { utilization: 63 + Math.random() * 10 },
+                cpu14: { utilization: 66 + Math.random() * 10 },
+                cpu15: { utilization: 62 + Math.random() * 10 },
+                cpu16: { utilization: 68 + Math.random() * 10 },
+                cpu17: { utilization: 64 + Math.random() * 10 },
               },
             },
           },
@@ -201,6 +284,26 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
                 GPU: 58 + Math.random() * 22,
                 NPU: 63 + Math.random() * 17,
               },
+              cpus: {
+                cpu0: { utilization: 68 + Math.random() * 10 },
+                cpu1: { utilization: 66 + Math.random() * 10 },
+                cpu2: { utilization: 71 + Math.random() * 10 },
+                cpu3: { utilization: 67 + Math.random() * 10 },
+                cpu4: { utilization: 74 + Math.random() * 10 },
+                cpu5: { utilization: 69 + Math.random() * 10 },
+                cpu6: { utilization: 72 + Math.random() * 10 },
+                cpu7: { utilization: 68 + Math.random() * 10 },
+                cpu8: { utilization: 73 + Math.random() * 10 },
+                cpu9: { utilization: 67 + Math.random() * 10 },
+                cpu10: { utilization: 75 + Math.random() * 10 },
+                cpu11: { utilization: 70 + Math.random() * 10 },
+                cpu12: { utilization: 76 + Math.random() * 10 },
+                cpu13: { utilization: 69 + Math.random() * 10 },
+                cpu14: { utilization: 72 + Math.random() * 10 },
+                cpu15: { utilization: 68 + Math.random() * 10 },
+                cpu16: { utilization: 74 + Math.random() * 10 },
+                cpu17: { utilization: 70 + Math.random() * 10 },
+              },
             },
           },
           SoC2: {
@@ -212,6 +315,26 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
                 CpuCluster2: { avg: 40 + Math.random() * 8 },
                 GPU: 52 + Math.random() * 19,
                 NPU: 57 + Math.random() * 14,
+              },
+              cpus: {
+                cpu0: { utilization: 58 + Math.random() * 10 },
+                cpu1: { utilization: 56 + Math.random() * 10 },
+                cpu2: { utilization: 61 + Math.random() * 10 },
+                cpu3: { utilization: 57 + Math.random() * 10 },
+                cpu4: { utilization: 64 + Math.random() * 10 },
+                cpu5: { utilization: 59 + Math.random() * 10 },
+                cpu6: { utilization: 62 + Math.random() * 10 },
+                cpu7: { utilization: 58 + Math.random() * 10 },
+                cpu8: { utilization: 63 + Math.random() * 10 },
+                cpu9: { utilization: 57 + Math.random() * 10 },
+                cpu10: { utilization: 65 + Math.random() * 10 },
+                cpu11: { utilization: 60 + Math.random() * 10 },
+                cpu12: { utilization: 66 + Math.random() * 10 },
+                cpu13: { utilization: 59 + Math.random() * 10 },
+                cpu14: { utilization: 62 + Math.random() * 10 },
+                cpu15: { utilization: 58 + Math.random() * 10 },
+                cpu16: { utilization: 64 + Math.random() * 10 },
+                cpu17: { utilization: 60 + Math.random() * 10 },
               },
             },
           },
@@ -327,51 +450,63 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
         const temperatureData = socData?.ServerVM?.Temperature || {};
         const maxDataPoints = 30; // 최대 데이터 포인트 수
 
-        const newThermalStatus = Object.keys(temperatureData).map((key) => {
-          const value = temperatureData[key];
-
-          // 기존 thermalStatus에서 해당 모듈 찾기
-          const existingModule = currentThermal.thermalStatus.find(
-            (t) => t.moduleName === key,
-          );
-
-          let newValue: number;
-
-          // CpuCluster로 시작하면 avg 사용, 아니면 값 자체 사용
+        // CpuCluster의 최대값 찾기
+        let maxCpuClusterValue = 0;
+        Object.keys(temperatureData).forEach((key) => {
           if (key.startsWith('CpuCluster')) {
-            newValue = value?.avg ?? 0;
-          } else {
-            newValue = typeof value === 'number' ? value : 0;
+            const value = temperatureData[key]?.avg ?? 0;
+            maxCpuClusterValue = Math.max(maxCpuClusterValue, value);
           }
-
-          // 기존 값 배열 가져오기
-          let valueArray = existingModule ? [...existingModule.value] : [];
-
-          // 새 값 추가
-          valueArray.push(newValue);
-
-          // 최대 개수를 초과하면 왼쪽으로 시프트 (가장 오래된 값 제거)
-          if (valueArray.length > maxDataPoints) {
-            valueArray = valueArray.slice(-maxDataPoints);
-          }
-
-          // lineColor 생성 (모듈별 고유 색상)
-          const colorMap: { [key: string]: string } = {
-            ChipPackage: '#FF0000',
-            CpuCluster0: '#00FF00',
-            CpuCluster1: '#0000FF',
-            CpuCluster2: '#FFA500',
-            GPU: '#FF00FF',
-            NPU: '#00FFFF',
-          };
-          const lineColor = colorMap[key] || '#808080';
-
-          return {
-            moduleName: key,
-            lineColor: existingModule?.lineColor || lineColor,
-            value: valueArray,
-          };
         });
+
+        const newThermalStatus = Object.keys(temperatureData)
+          .filter(
+            (key) =>
+              (!key.startsWith('CpuCluster') || key === 'CpuCluster0') &&
+              key !== 'ChipPackage',
+          )
+          .map((key) => {
+            const value = temperatureData[key];
+
+            // 기존 thermalStatus에서 해당 모듈 찾기
+            const existingModule = currentThermal.thermalStatus.find(
+              (t) => t.moduleName === key,
+            );
+
+            let newValue: number;
+
+            // CpuCluster0이면 최대 CpuCluster 값 사용, 아니면 값 자체 사용
+            if (key === 'CpuCluster0') {
+              newValue = maxCpuClusterValue;
+            } else {
+              newValue = typeof value === 'number' ? value : 0;
+            }
+
+            // 기존 값 배열 가져오기
+            let valueArray = existingModule ? [...existingModule.value] : [];
+
+            // 새 값 추가
+            valueArray.push(newValue);
+
+            // 최대 개수를 초과하면 왼쪽으로 시프트 (가장 오래된 값 제거)
+            if (valueArray.length > maxDataPoints) {
+              valueArray = valueArray.slice(-maxDataPoints);
+            }
+
+            // lineColor 생성 (모듈별 고유 색상)
+            const colorMap: { [key: string]: string } = {
+              CpuCluster0: '#FF0AFB',
+              GPU: '#800AFF',
+              NPU: '#01A4FF',
+            };
+            const lineColor = colorMap[key] || '#808080';
+
+            return {
+              moduleName: key,
+              lineColor: existingModule?.lineColor || lineColor,
+              value: valueArray,
+            };
+          });
 
         return { thermalStatus: newThermalStatus };
       };
@@ -397,6 +532,32 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
         soc2ThermalRef.current = newSoc2Thermal;
         setSoc2Thermal(newSoc2Thermal);
       }
+
+      // CPU Utilization 계산 함수
+      const calculateCpuUtilization = (cpusData: any): number => {
+        if (!cpusData) return 0;
+
+        const utilizations: number[] = [];
+        for (let i = 0; i <= 17; i++) {
+          const cpuKey = `cpu${i}`;
+          const util = cpusData[cpuKey]?.utilization;
+          if (typeof util === 'number') {
+            utilizations.push(util);
+          }
+        }
+
+        if (utilizations.length === 0) return 0;
+        const sum = utilizations.reduce((a, b) => a + b, 0);
+        return Math.round(sum / utilizations.length);
+      };
+
+      // SoC1 CPU 값 계산
+      const soc1CpuValue = calculateCpuUtilization(soc1Data?.ServerVM?.cpus);
+      setCpu1Value(soc1CpuValue);
+
+      // SoC2 CPU 값 계산
+      const soc2CpuValue = calculateCpuUtilization(soc2Data?.ServerVM?.cpus);
+      setCpu2Value(soc2CpuValue);
 
       // JSON 구조체를 내부 구조체에 할당
       setSystemInfo({
@@ -442,7 +603,12 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
         systemPower={systemInfo.systemArchitecture.systemPower}
         modules={systemInfo.systemArchitecture.modules}
       />
-      <ThermalMonitoring soc1Data={soc1Thermal} soc2Data={soc2Thermal} />
+      <div className="chart-area">
+        <div className="inner-chart-area">
+          <ThermalMonitoring soc1Data={soc1Thermal} soc2Data={soc2Thermal} />
+          <CpuUtilChart cpu1Value={cpu1Value} cpu2Value={cpu2Value} />
+        </div>
+      </div>
     </div>
   );
 };

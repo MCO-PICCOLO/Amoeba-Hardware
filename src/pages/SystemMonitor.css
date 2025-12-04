@@ -101,3 +101,42 @@
   order: 1;
   flex-grow: 0;
 }
+
+#system-monitor .chart-area {
+  /* Frame 2087335270 */
+
+  box-sizing: border-box;
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 30px 36px;
+
+  position: absolute;
+  width: 684px;
+  height: 960px;
+  left: 1173px;
+  top: 60px;
+
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 30px;
+}
+
+#system-monitor .chart-area .inner-chart-area {
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 20px;
+
+  width: 612px;
+  height: 900px;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}

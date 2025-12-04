@@ -20,6 +20,8 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
   const xTicks = [5, 10, 15, 20, 25, 30];
   const domainMax = fixedMaxTime;
 
+  console.log('ThermalChart data:', data);
+
   // 가장 긴 데이터 길이 찾기
   const maxLength = Math.max(
     ...data.thermalStatus.map((thermal) => thermal.value.length),
@@ -35,7 +37,7 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
       time: timeIndex + 1,
     };
 
-    data.thermalStatus.forEach((thermal, index) => {
+    data.thermalStatus.forEach((thermal) => {
       const n = thermal.value.length;
       let value: number | null = null;
 
@@ -49,9 +51,8 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
         }
       }
 
-      // 고유한 키 생성 (인덱스 포함)
-      const uniqueKey = `line-${index}`;
-      dataPoint[uniqueKey] = value;
+      // 고유한 키 생성 (모듈 이름 사용)
+      dataPoint[thermal.moduleName] = value;
     });
 
     return dataPoint;
@@ -66,72 +67,85 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
     });
   });
 
-  const maxValue = allValues.length > 0 ? Math.max(...allValues) : 70;
-
-  let yMax = Math.max(70, Math.ceil(maxValue / 20) * 20);
-
-  const yAxisDomain = [20, yMax];
-  const yAxisTicks = [];
-  for (let i = 0; i <= yMax; i += 20) {
-    yAxisTicks.push(i);
-  }
+  const yAxisDomain = [0, 70];
+  const yAxisTicks = [0, 20, 45, 70];
 
   return (
     <div className="thermal-chart" {...props}>
-      <div className="chart-title">{title}</div>
-      <ResponsiveContainer width="100%" height={266}>
-        <LineChart
-          data={chartData}
-          margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
-        >
-          <CartesianGrid
-            strokeDasharray="3 3"
-            horizontal={true}
-            vertical={false}
-          />
-          <XAxis
-            dataKey="time"
-            type="number"
-            domain={[1, domainMax]}
-            ticks={xTicks}
-            tick={{
-              fontFamily: 'Pretendard, Arial, sans-serif',
-              fontStyle: 'normal',
-              fontWeight: 500,
-              fontSize: 16,
-              fill: '#1D1D1D',
-            }}
-          />
-          <YAxis
-            width={40}
-            domain={yAxisDomain}
-            ticks={yAxisTicks}
-            axisLine={false}
-            tick={{
-              fontFamily: 'Pretendard, Arial, sans-serif',
-              fontStyle: 'normal',
-              fontWeight: 500,
-              fontSize: 16,
-              fill: '#1D1D1D',
-            }}
-          />
+      <div className="chart-title-legend">
+        <div className="chart-title">{title}</div>
+        <div className="chart-legend">
           {data.thermalStatus.map((thermal, index) => (
-            <Line
-              key={`line-${index}`}
-              type="natural"
-              dataKey={`line-${index}`}
-              stroke={thermal.lineColor}
-              strokeWidth={3}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              dot={false}
-              activeDot={false}
-              isAnimationActive={false}
-              connectNulls={false}
-            />
+            <div key={`legend-${index}`} className="legend-item">
+              <div
+                className="legend-icon"
+                style={{ borderColor: thermal.lineColor }}
+              />
+              <span className="legend-label">
+                {thermal.moduleName === 'CpuCluster0'
+                  ? 'CPU'
+                  : thermal.moduleName}
+              </span>
+            </div>
           ))}
-        </LineChart>
-      </ResponsiveContainer>
+        </div>
+      </div>
+      <div style={{ position: 'absolute', top: '66px', left: '20px' }}>
+        <ResponsiveContainer width={573} height={223}>
+          <LineChart
+            data={chartData}
+            margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
+          >
+            <CartesianGrid
+              strokeDasharray="3 3"
+              horizontal={true}
+              vertical={false}
+            />
+            <XAxis
+              dataKey="time"
+              type="number"
+              domain={[1, domainMax]}
+              ticks={xTicks}
+              tick={{
+                fontFamily: 'Pretendard, Arial, sans-serif',
+                fontStyle: 'normal',
+                fontWeight: 500,
+                fontSize: 16,
+                fill: '#1D1D1D',
+              }}
+            />
+            <YAxis
+              width={40}
+              domain={yAxisDomain}
+              ticks={yAxisTicks}
+              axisLine={false}
+              tick={{
+                fontFamily: 'Pretendard, Arial, sans-serif',
+                fontStyle: 'normal',
+                fontWeight: 500,
+                fontSize: 16,
+                fill: '#1D1D1D',
+              }}
+            />
+            {data.thermalStatus.map((thermal, index) => (
+              <Line
+                key={`line-${index}`}
+                type="natural"
+                dataKey={thermal.moduleName}
+                stroke={thermal.lineColor}
+                strokeWidth={3}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                dot={false}
+                activeDot={false}
+                isAnimationActive={false}
+                connectNulls={false}
+                name={thermal.moduleName}
+              />
+            ))}
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };
