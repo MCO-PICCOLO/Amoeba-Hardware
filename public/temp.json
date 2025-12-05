@@ -1,0 +1,375 @@
+{
+  "SystemInfo": {
+    "SoC1": {
+      "AndroidVM": {
+        "cpus": {},
+        "memory": {}
+      },
+      "ServerVM": {
+        "Temperature": {
+          "CPUCluster0": {
+            "avg": 33.3,
+            "cores": {
+              "Core 0": 33,
+              "Core 1": 33.3,
+              "Core 2": 32.9,
+              "Core 3": 32.9,
+              "Core 4": 32.6,
+              "Core 5": 33
+            }
+          },
+          "CPUCluster1": {
+            "avg": 34.8,
+            "cores": {
+              "Core 0": 33.4,
+              "Core 1": 33,
+              "Core 2": 32.6,
+              "Core 3": 33,
+              "Core 4": 32.6,
+              "Core 5": 34.8
+            }
+          },
+          "CPUCluster2": {
+            "avg": 33.8,
+            "cores": {
+              "Core 0": 33.4,
+              "Core 1": 33.4,
+              "Core 2": 33,
+              "Core 3": 33.2,
+              "Core 4": 33.8,
+              "Core 5": 33.2
+            }
+          },
+          "ChipPackage": 40.18,
+          "GPU": 33,
+          "NPU": 33.7
+        },
+        "cpus": {
+          "cpu0": {
+            "utilization": "1.5"
+          },
+          "cpu1": {
+            "utilization": "2.1"
+          },
+          "cpu10": {
+            "utilization": "0.1"
+          },
+          "cpu11": {
+            "utilization": "0.7"
+          },
+          "cpu12": {
+            "utilization": "0.3"
+          },
+          "cpu13": {
+            "utilization": "0.3"
+          },
+          "cpu14": {
+            "utilization": "0.4"
+          },
+          "cpu15": {
+            "utilization": "0.6"
+          },
+          "cpu16": {
+            "utilization": "0.6"
+          },
+          "cpu17": {
+            "utilization": "0.6"
+          },
+          "cpu2": {
+            "utilization": "3.6"
+          },
+          "cpu3": {
+            "utilization": "2.1"
+          },
+          "cpu4": {
+            "utilization": "2.5"
+          },
+          "cpu5": {
+            "utilization": "2.5"
+          },
+          "cpu6": {
+            "utilization": "1.0"
+          },
+          "cpu7": {
+            "utilization": "0.3"
+          },
+          "cpu8": {
+            "utilization": "0.1"
+          },
+          "cpu9": {
+            "utilization": "0.4"
+          }
+        },
+        "gpu": {},
+        "memory": {
+          "TotalMemory": "10911208",
+          "UsedMemory": "8707148",
+          "usage": 79.8000368061905
+        },
+        "network": {
+          "tap0": {}
+        },
+        "storage": {
+          "ufs": {}
+        }
+      },
+      "YoctoVM": {
+        "cpus": {},
+        "memory": {}
+      }
+    },
+    "SoC2": {
+      "AndroidVM": {
+        "cpus": {},
+        "memory": {}
+      },
+      "ServerVM": {
+        "Temperature": {
+          "CPUCluster0": {
+            "avg": 34.4,
+            "cores": {
+              "Core 0": 34.2,
+              "Core 1": 34.4,
+              "Core 2": 34,
+              "Core 3": 34,
+              "Core 4": 34,
+              "Core 5": 33.6
+            }
+          },
+          "CPUCluster1": {
+            "avg": 34.4,
+            "cores": {
+              "Core 0": 33.8,
+              "Core 1": 33.8,
+              "Core 2": 34,
+              "Core 3": 34.2,
+              "Core 4": 33.6,
+              "Core 5": 34.4
+            }
+          },
+          "CPUCluster2": {
+            "avg": 37.6,
+            "cores": {
+              "Core 0": 35.2,
+              "Core 1": 37.6,
+              "Core 2": 34.4,
+              "Core 3": 34.4,
+              "Core 4": 35.2,
+              "Core 5": 34.8
+            }
+          },
+          "ChipPackage": 43.07,
+          "GPU": 33.6,
+          "NPU": 34.4
+        },
+        "cpus": {
+          "cpu0": {
+            "utilization": "0.5"
+          },
+          "cpu1": {
+            "utilization": "0.5"
+          },
+          "cpu10": {
+            "utilization": "0.5"
+          },
+          "cpu11": {
+            "utilization": "0.5"
+          },
+          "cpu12": {
+            "utilization": "1.1"
+          },
+          "cpu13": {
+            "utilization": "5.9"
+          },
+          "cpu14": {
+            "utilization": "6.3"
+          },
+          "cpu15": {
+            "utilization": "0.5"
+          },
+          "cpu16": {
+            "utilization": "0.5"
+          },
+          "cpu17": {
+            "utilization": "2.1"
+          },
+          "cpu2": {
+            "utilization": "2.6"
+          },
+          "cpu3": {
+            "utilization": "1.1"
+          },
+          "cpu4": {
+            "utilization": "1.1"
+          },
+          "cpu5": {
+            "utilization": "0.5"
+          },
+          "cpu6": {
+            "utilization": "1.1"
+          },
+          "cpu7": {
+            "utilization": "1.1"
+          },
+          "cpu8": {
+            "utilization": "1.1"
+          },
+          "cpu9": {
+            "utilization": "0.0"
+          }
+        },
+        "gpu": {},
+        "memory": {
+          "TotalMemory": "10911140",
+          "UsedMemory": "8084692",
+          "usage": 74.0957590132653
+        },
+        "network": {
+          "tap0": {}
+        },
+        "storage": {
+          "ufs": {}
+        }
+      },
+      "YoctoVM": {
+        "cpus": {},
+        "memory": {}
+      }
+    },
+    "System": {
+      "Audio": {
+        "acc_power": 23.89033040795,
+        "current": 0.02258332,
+        "power": 0.1118438923,
+        "status": "OK",
+        "voltage": 4.9525
+      },
+      "Camera1": {
+        "acc_power": 242.599654283737,
+        "current": 0.2274476022,
+        "power": 1.131551820945,
+        "status": "OK",
+        "voltage": 4.975
+      },
+      "Camera2": {
+        "acc_power": 337.658793707201,
+        "current": 0.31616648,
+        "power": 1.5745090704,
+        "status": "OK",
+        "voltage": 4.98
+      },
+      "Display1": {
+        "acc_power": 1.119051953325,
+        "android_status": "WARN",
+        "current": 0.00213626,
+        "power": 0.00703363605,
+        "status": "WARN",
+        "voltage": 3.2925
+      },
+      "Display2": {
+        "acc_power": 112.366781104853,
+        "android_status": "OK",
+        "current": 0.160646752,
+        "power": 0.52491326216,
+        "status": "OK",
+        "voltage": 3.2675
+      },
+      "ETH1": {
+        "acc_power": 848.566124184249,
+        "current": 0.79468872,
+        "power": 3.9396693294,
+        "status": "OK",
+        "voltage": 4.9575
+      },
+      "ETH2": {
+        "acc_power": 770.591128120949,
+        "current": 0.72052998,
+        "power": 3.583735988025,
+        "status": "OK",
+        "voltage": 4.97375
+      },
+      "Health": {
+        "Camera1": "OK",
+        "Camera2": "OK",
+        "Display1": "OK",
+        "ETH1": "OK",
+        "MCU0": "ERR",
+        "MCU1": "ERR",
+        "NVMe": "OK",
+        "PCIe0": "ERR",
+        "PCIe1": "ERR",
+        "PCIeSwitch": "OK",
+        "SWLess0_0": "ERR",
+        "SWLess0_1": "ERR",
+        "SWLess1_0": "ERR",
+        "SWLess1_1": "ERR",
+        "SafetyECU": "OK",
+        "SoC1": "OK",
+        "SoC2": "OK",
+        "Zonal0": "ERR",
+        "Zonal1": "ERR"
+      },
+      "HwMon": {
+        "enable": "true"
+      },
+      "NVMe": {
+        "acc_power": 0,
+        "current": 0,
+        "power": 0,
+        "status": "OK",
+        "voltage": 0
+      },
+      "PCIeSwitch": {
+        "acc_power": 3545.3343391641,
+        "current": 1.4070049238,
+        "power": 16.5692417338998,
+        "status": "OK",
+        "voltage": 11.77625
+      },
+      "SafetyMCU": {
+        "acc_power": 0,
+        "current": 0,
+        "power": 0,
+        "status": "OK",
+        "voltage": 0
+      },
+      "SoC1": {
+        "acc_power": 11095.5088948136,
+        "current": 4.37857005,
+        "power": 51.6288141020625,
+        "status": "OK",
+        "voltage": 11.79125
+      },
+      "SoC2": {
+        "acc_power": 5005.20520228028,
+        "current": 2.2371433526,
+        "power": 26.4122737066338,
+        "status": "OK",
+        "voltage": 11.80625
+      },
+      "USB1": {
+        "acc_power": 0.65978313805,
+        "current": 0.00061036,
+        "power": 0.00303425215,
+        "status": "WARN",
+        "voltage": 4.97125
+      },
+      "USB2": {
+        "acc_power": 21285.8899147637,
+        "current": 19.81564258,
+        "power": 98.9791346871,
+        "status": "WARN",
+        "voltage": 4.995
+      },
+      "VBAT1": {
+        "valid": true
+      },
+      "VBAT2": {
+        "valid": true
+      },
+      "acc_power": 0,
+      "power": 204,
+      "runningTime": 14
+    }
+  }
+}

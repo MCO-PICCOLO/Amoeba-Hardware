@@ -82,7 +82,7 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
                 style={{ borderColor: thermal.lineColor }}
               />
               <span className="legend-label">
-                {thermal.moduleName === 'CpuCluster0'
+                {thermal.moduleName === 'CPUCluster0'
                   ? 'CPU'
                   : thermal.moduleName}
               </span>
