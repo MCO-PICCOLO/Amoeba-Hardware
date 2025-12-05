@@ -835,7 +835,7 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
         currentThermal: ThermalMonitoringData,
       ): ThermalMonitoringData => {
         const temperatureData = socData?.ServerVM?.Temperature || {};
-        const maxDataPoints = 30; // 최대 데이터 포인트 수
+        const maxDataPoints = 300; // 최대 데이터 포인트 수 (5분 * 60초)
 
         // CpuCluster의 최대값 찾기
         let maxCPUClusterValue = 0;

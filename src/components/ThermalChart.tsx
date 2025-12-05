@@ -5,6 +5,7 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
+  ReferenceLine,
 } from 'recharts';
 import './ThermalChart.css';
 import type { HTMLAttributes } from 'react';
@@ -16,8 +17,8 @@ interface ThermalChartProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
-  const fixedMaxTime = 30;
-  const xTicks = [5, 10, 15, 20, 25, 30];
+  const fixedMaxTime = 300; // 5분 * 60초 = 300개 데이터 포인트
+  const xTicks = [60, 120, 180, 240, 300]; // 1분, 2분, 3분, 4분, 5분
   const domainMax = fixedMaxTime;
 
   console.log('ThermalChart data:', data);
@@ -67,8 +68,13 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
     });
   });
 
-  const yAxisDomain = [0, 70];
-  const yAxisTicks = [0, 20, 45, 70];
+  const yAxisDomain = [20, 90];
+  const yAxisTicks = [20, 45, 70, 90];
+
+  // X축 라벨 포매터 - 초를 분으로 변환
+  const formatXAxisLabel = (value: number) => {
+    return `${Math.round(value / 60)}`;
+  };
 
   return (
     <div className="thermal-chart" {...props}>
@@ -106,6 +112,7 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
               type="number"
               domain={[1, domainMax]}
               ticks={xTicks}
+              tickFormatter={formatXAxisLabel}
               tick={{
                 fontFamily: 'Pretendard, Arial, sans-serif',
                 fontStyle: 'normal',
@@ -115,7 +122,7 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
               }}
             />
             <YAxis
-              width={40}
+              width={50}
               domain={yAxisDomain}
               ticks={yAxisTicks}
               axisLine={false}
@@ -127,6 +134,7 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
                 fill: '#1D1D1D',
               }}
             />
+            <ReferenceLine y={90} stroke="#FF0000" strokeWidth={2} />
             {data.thermalStatus.map((thermal, index) => (
               <Line
                 key={`line-${index}`}
