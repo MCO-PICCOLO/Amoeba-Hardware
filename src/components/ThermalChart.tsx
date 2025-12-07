@@ -7,6 +7,7 @@ import {
   CartesianGrid,
   ReferenceLine,
 } from 'recharts';
+import { useMemo } from 'react';
 import './ThermalChart.css';
 import type { HTMLAttributes } from 'react';
 import type { ThermalMonitoringData } from '../utils/Data';
@@ -16,57 +17,58 @@ interface ThermalChartProps extends HTMLAttributes<HTMLDivElement> {
   data: ThermalMonitoringData;
 }
 
+// 스타일 상수 (메모리 재할당 방지)
+const TICK_STYLE = {
+  fontFamily: 'Pretendard, Arial, sans-serif',
+  fontStyle: 'normal' as const,
+  fontWeight: 500,
+  fontSize: 16,
+  fill: '#1D1D1D',
+};
+
+const CHART_MARGIN = { top: 5, right: 0, left: 0, bottom: 5 } as const;
+const GRIDLINE_STYLE = { strokeDasharray: '3 3' } as const;
+const CHART_CONTAINER_STYLE = { position: 'absolute' as const, top: '66px', left: '20px' };
+
 const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
   const fixedMaxTime = 300; // 5분 * 60초 = 300개 데이터 포인트
   const xTicks = [60, 120, 180, 240, 300]; // 1분, 2분, 3분, 4분, 5분
   const domainMax = fixedMaxTime;
 
-  console.log('ThermalChart data:', data);
+  // chartData를 useMemo로 최적화 (data.thermalStatus 변경 시에만 재생성)
+  const chartData = useMemo(() => {
+    const maxLength = Math.max(
+      ...data.thermalStatus.map((thermal) => thermal.value.length),
+      0,
+    );
 
-  // 가장 긴 데이터 길이 찾기
-  const maxLength = Math.max(
-    ...data.thermalStatus.map((thermal) => thermal.value.length),
-    0,
-  );
+    const dataLength = Math.min(maxLength, fixedMaxTime);
 
-  // 실제 데이터 포인트 수 (최대 30개)
-  const dataLength = Math.min(maxLength, fixedMaxTime);
+    return Array.from({ length: fixedMaxTime }, (_v, timeIndex) => {
+      const dataPoint: { time: number; [key: string]: number | null } = {
+        time: timeIndex + 1,
+      };
 
-  // 모든 thermal status의 데이터를 하나의 차트 데이터로 병합
-  const chartData = Array.from({ length: fixedMaxTime }, (_v, timeIndex) => {
-    const dataPoint: { time: number; [key: string]: number | null } = {
-      time: timeIndex + 1,
-    };
+      data.thermalStatus.forEach((thermal) => {
+        const n = thermal.value.length;
+        let value: number | null = null;
 
-    data.thermalStatus.forEach((thermal) => {
-      const n = thermal.value.length;
-      let value: number | null = null;
-
-      if (timeIndex < dataLength) {
-        if (n >= fixedMaxTime) {
-          // 데이터가 30개 이상이면 최근 30개 사용
-          value = thermal.value[n - fixedMaxTime + timeIndex];
-        } else if (timeIndex < n) {
-          // 데이터가 30개 미만이면 처음부터 표시
-          value = thermal.value[timeIndex];
+        if (timeIndex < dataLength) {
+          if (n >= fixedMaxTime) {
+            value = thermal.value[n - fixedMaxTime + timeIndex];
+          } else if (timeIndex < n) {
+            value = thermal.value[timeIndex];
+          }
         }
-      }
 
-      // 고유한 키 생성 (모듈 이름 사용)
-      dataPoint[thermal.moduleName] = value;
+        dataPoint[thermal.moduleName] = value;
+      });
+
+      return dataPoint;
     });
+  }, [data.thermalStatus]);
 
-    return dataPoint;
-  });
-
-  const allValues: number[] = [];
-  data.thermalStatus.forEach((thermal) => {
-    thermal.value.forEach((val) => {
-      if (val !== null && val !== undefined) {
-        allValues.push(val);
-      }
-    });
-  });
+  console.log('ThermalChart data:', data);
 
   const yAxisDomain = [20, 90];
   const yAxisTicks = [20, 45, 70, 90];
@@ -96,14 +98,14 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
           ))}
         </div>
       </div>
-      <div style={{ position: 'absolute', top: '66px', left: '20px' }}>
+      <div style={CHART_CONTAINER_STYLE}>
         <ResponsiveContainer width={573} height={223}>
           <LineChart
             data={chartData}
-            margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
+            margin={CHART_MARGIN}
           >
             <CartesianGrid
-              strokeDasharray="3 3"
+              strokeDasharray={GRIDLINE_STYLE.strokeDasharray}
               horizontal={true}
               vertical={false}
             />
@@ -113,26 +115,14 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
               domain={[1, domainMax]}
               ticks={xTicks}
               tickFormatter={formatXAxisLabel}
-              tick={{
-                fontFamily: 'Pretendard, Arial, sans-serif',
-                fontStyle: 'normal',
-                fontWeight: 500,
-                fontSize: 16,
-                fill: '#1D1D1D',
-              }}
+              tick={TICK_STYLE}
             />
             <YAxis
               width={50}
               domain={yAxisDomain}
               ticks={yAxisTicks}
               axisLine={false}
-              tick={{
-                fontFamily: 'Pretendard, Arial, sans-serif',
-                fontStyle: 'normal',
-                fontWeight: 500,
-                fontSize: 16,
-                fill: '#1D1D1D',
-              }}
+              tick={TICK_STYLE}
             />
             <ReferenceLine y={90} stroke="#FF0000" strokeWidth={2} />
             {data.thermalStatus.map((thermal, index) => (

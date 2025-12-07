@@ -3,7 +3,6 @@ import SystemArchitecture from '../components/SystemArchitecture';
 // import { getSystemInfo } from '../utils/RestAPI';
 import './SystemMonitor.css';
 import type { SystemInfo, ThermalMonitoringData } from '../utils/Data';
-import { getSystemInfo } from '../utils/RestAPI';
 import ThermalMonitoring from '../components/ThermalMonitoring';
 import CpuUtilChart from '../components/CpuUtilChart';
 
@@ -57,6 +56,7 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
   const sampleIndexRef = useRef<number>(0);
   const soc1ThermalRef = useRef<ThermalMonitoringData>({ thermalStatus: [] });
   const soc2ThermalRef = useRef<ThermalMonitoringData>({ thermalStatus: [] });
+  const systemInfoRef = useRef<any>(null);
 
   // 테스트용 샘플 데이터 생성 함수
   const getTestSampleData = () => {
@@ -71,7 +71,7 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
             ServerVM: {
               Temperature: {
                 CPUCluster0: {
-                  avg: 33.3,
+                  avg: 33.3 + Math.random() * 15,
                   cores: {
                     'Core 0': 33,
                     'Core 1': 33.3,
@@ -82,7 +82,7 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
                   },
                 },
                 CPUCluster1: {
-                  avg: 34.8,
+                  avg: 34.8 + Math.random() * 15,
                   cores: {
                     'Core 0': 33.4,
                     'Core 1': 33,
@@ -775,8 +775,8 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
     const startTime = Date.now();
 
     try {
-      const data = await getSystemInfo();
-      // const data = getTestSampleData();
+      // const data = await getSystemInfo();
+      const data = getTestSampleData();
 
       // data.SystemInfo.System의 각 속성에서 status를 추출하여 modules 배열 생성
       const systemData = data.SystemInfo?.System || {};
@@ -846,20 +846,30 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
           }
         });
 
-        const newThermalStatus = Object.keys(temperatureData)
-          .filter(
-            (key) =>
-              (!key.startsWith('CPUCluster') || key === 'CPUCluster0') &&
-              key !== 'ChipPackage',
-          )
-          .map((key) => {
+        // 필터 키 정의
+        const filteredKeys = Object.keys(temperatureData).filter(
+          (key) =>
+            (!key.startsWith('CPUCluster') || key === 'CPUCluster0') &&
+            key !== 'ChipPackage',
+        );
+
+        // lineColor 맵 (재사용)
+        const colorMap: { [key: string]: string } = {
+          CPUCluster0: '#FF0AFB',
+          GPU: '#800AFF',
+          NPU: '#01A4FF',
+        };
+
+        // 새로운 값들만 계산 (객체 재생성 최소화)
+        const newThermalStatus = currentThermal.thermalStatus.map(
+          (existingModule) => {
+            // 현재 온도 데이터에 이 모듈이 있는지 확인
+            if (!filteredKeys.includes(existingModule.moduleName)) {
+              return existingModule; // 변경 없음
+            }
+
+            const key = existingModule.moduleName;
             const value = temperatureData[key];
-
-            // 기존 thermalStatus에서 해당 모듈 찾기
-            const existingModule = currentThermal.thermalStatus.find(
-              (t) => t.moduleName === key,
-            );
-
             let newValue: number;
 
             // CPUCluster0이면 최대 CPUCluster 값 사용, 아니면 값 자체 사용
@@ -869,55 +879,71 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
               newValue = typeof value === 'number' ? value : 0;
             }
 
-            // 기존 값 배열 가져오기
-            let valueArray = existingModule ? [...existingModule.value] : [];
-
-            // 새 값 추가
+            // 배열 직접 수정 (복사 최소화)
+            const valueArray = existingModule.value;
             valueArray.push(newValue);
 
-            // 최대 개수를 초과하면 왼쪽으로 시프트 (가장 오래된 값 제거)
+            // 최대 개수를 초과하면 shift로 제거 (slice 대신 shift 사용)
             if (valueArray.length > maxDataPoints) {
-              valueArray = valueArray.slice(-maxDataPoints);
+              valueArray.shift();
             }
 
-            // lineColor 생성 (모듈별 고유 색상)
-            const colorMap: { [key: string]: string } = {
-              CPUCluster0: '#FF0AFB',
-              GPU: '#800AFF',
-              NPU: '#01A4FF',
-            };
-            const lineColor = colorMap[key] || '#808080';
+            return existingModule; // 같은 객체 참조 유지
+          },
+        );
+
+        // 새로운 모듈 추가 (처음 보는 모듈)
+        const existingKeys = new Set(
+          currentThermal.thermalStatus.map((t) => t.moduleName),
+        );
+        const newModules = filteredKeys
+          .filter((key) => !existingKeys.has(key))
+          .map((key) => {
+            const value = temperatureData[key];
+            let newValue: number;
+
+            if (key === 'CPUCluster0') {
+              newValue = maxCPUClusterValue;
+            } else {
+              newValue = typeof value === 'number' ? value : 0;
+            }
 
             return {
               moduleName: key,
-              lineColor: existingModule?.lineColor || lineColor,
-              value: valueArray,
+              lineColor: colorMap[key] || '#808080',
+              value: [newValue],
             };
           });
 
-        return { thermalStatus: newThermalStatus };
+        return { thermalStatus: [...newThermalStatus, ...newModules] };
       };
 
-      // SoC1 Thermal 데이터 업데이트
+      // SoC1 Thermal 데이터 업데이트 (참조가 변경되었을 때만 업데이트)
       const soc1Data = data.SystemInfo?.SoC1;
       if (soc1Data) {
         const newSoc1Thermal = processThermalData(
           soc1Data,
           soc1ThermalRef.current,
         );
-        soc1ThermalRef.current = newSoc1Thermal;
-        setSoc1Thermal(newSoc1Thermal);
+        // 참조가 변경되었을 때만 상태 업데이트
+        if (newSoc1Thermal !== soc1ThermalRef.current) {
+          soc1ThermalRef.current = newSoc1Thermal;
+          setSoc1Thermal(newSoc1Thermal);
+        }
       }
 
-      // SoC2 Thermal 데이터 업데이트
+      // SoC2 Thermal 데이터 업데이트 (참조가 변경되었을 때만 업데이트)
       const soc2Data = data.SystemInfo?.SoC2;
       if (soc2Data) {
         const newSoc2Thermal = processThermalData(
           soc2Data,
           soc2ThermalRef.current,
         );
-        soc2ThermalRef.current = newSoc2Thermal;
-        setSoc2Thermal(newSoc2Thermal);
+        // 참조가 변경되었을 때만 상태 업데이트
+        if (newSoc2Thermal !== soc2ThermalRef.current) {
+          soc2ThermalRef.current = newSoc2Thermal;
+          setSoc2Thermal(newSoc2Thermal);
+        }
       }
 
       // CPU Utilization 계산 함수
@@ -938,21 +964,41 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
         return Math.round(sum / utilizations.length);
       };
 
-      // SoC1 CPU 값 계산
+      // SoC1 CPU 값 계산 및 비교 후 업데이트
       const soc1CpuValue = calculateCpuUtilization(soc1Data?.ServerVM?.cpus);
-      setCpu1Value(soc1CpuValue);
+      if (soc1CpuValue !== cpu1Value) {
+        setCpu1Value(soc1CpuValue);
+      }
 
-      // SoC2 CPU 값 계산
+      // SoC2 CPU 값 계산 및 비교 후 업데이트
       const soc2CpuValue = calculateCpuUtilization(soc2Data?.ServerVM?.cpus);
-      setCpu2Value(soc2CpuValue);
+      if (soc2CpuValue !== cpu2Value) {
+        setCpu2Value(soc2CpuValue);
+      }
 
       // JSON 구조체를 내부 구조체에 할당
-      setSystemInfo({
+      const newSystemInfo = {
         systemArchitecture: {
           systemPower: systemData.power || 0,
           modules: modules,
         },
-      });
+      };
+
+      // 모듈 배열이 실제로 변경되었을 때만 업데이트
+      if (
+        !systemInfoRef.current ||
+        systemInfoRef.current.systemArchitecture.systemPower !==
+          newSystemInfo.systemArchitecture.systemPower ||
+        systemInfoRef.current.systemArchitecture.modules.length !==
+          newSystemInfo.systemArchitecture.modules.length ||
+        systemInfoRef.current.systemArchitecture.modules.some(
+          (mod: any, idx: number) =>
+            mod.name !== newSystemInfo.systemArchitecture.modules[idx]?.name,
+        )
+      ) {
+        systemInfoRef.current = newSystemInfo;
+        setSystemInfo(newSystemInfo);
+      }
     } catch (error) {
       console.error('Failed to fetch system info:', error);
     } finally {
