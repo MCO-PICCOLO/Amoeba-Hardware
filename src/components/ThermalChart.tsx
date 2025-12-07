@@ -28,7 +28,11 @@ const TICK_STYLE = {
 
 const CHART_MARGIN = { top: 5, right: 0, left: 0, bottom: 5 } as const;
 const GRIDLINE_STYLE = { strokeDasharray: '3 3' } as const;
-const CHART_CONTAINER_STYLE = { position: 'absolute' as const, top: '66px', left: '20px' };
+const CHART_CONTAINER_STYLE = {
+  position: 'absolute' as const,
+  top: '66px',
+  left: '20px',
+};
 
 const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
   const fixedMaxTime = 300; // 5분 * 60초 = 300개 데이터 포인트
@@ -100,10 +104,7 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
       </div>
       <div style={CHART_CONTAINER_STYLE}>
         <ResponsiveContainer width={573} height={223}>
-          <LineChart
-            data={chartData}
-            margin={CHART_MARGIN}
-          >
+          <LineChart data={chartData} margin={CHART_MARGIN}>
             <CartesianGrid
               strokeDasharray={GRIDLINE_STYLE.strokeDasharray}
               horizontal={true}
