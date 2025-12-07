@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import SystemArchitecture from '../components/SystemArchitecture';
-// import { getSystemInfo } from '../utils/RestAPI';
+import { getSystemInfo } from '../utils/RestAPI';
 import './SystemMonitor.css';
 import type { SystemInfo, ThermalMonitoringData } from '../utils/Data';
 import ThermalMonitoring from '../components/ThermalMonitoring';
@@ -93,7 +93,7 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
                   },
                 },
                 CPUCluster2: {
-                  avg: 33.8,
+                  avg: 33.8 + Math.random() * 15,
                   cores: {
                     'Core 0': 33.4,
                     'Core 1': 33.4,
@@ -104,8 +104,8 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
                   },
                 },
                 ChipPackage: 40.18,
-                GPU: 33,
-                NPU: 33.7,
+                GPU: 33 + Math.random() * 15,
+                NPU: 33.7 + Math.random() * 15,
               },
               cpus: {
                 cpu0: {
@@ -189,7 +189,7 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
             ServerVM: {
               Temperature: {
                 CPUCluster0: {
-                  avg: 34.4,
+                  avg: 34.4 + Math.random() * 15,
                   cores: {
                     'Core 0': 34.2,
                     'Core 1': 34.4,
@@ -200,7 +200,7 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
                   },
                 },
                 CPUCluster1: {
-                  avg: 34.4,
+                  avg: 34.4 + Math.random() * 15,
                   cores: {
                     'Core 0': 33.8,
                     'Core 1': 33.8,
@@ -222,8 +222,8 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
                   },
                 },
                 ChipPackage: 43.07,
-                GPU: 33.6,
-                NPU: 34.4,
+                GPU: 33.6 + Math.random() * 15,
+                NPU: 34.4 + Math.random() * 15,
               },
               cpus: {
                 cpu0: {

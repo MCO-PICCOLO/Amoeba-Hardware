@@ -109,26 +109,27 @@ const CpuUtilChart = ({
         </div>
       </div>
       <div className="inner-contents">
-        <ResponsiveContainer width="100%" height={70}>
-          <BarChart data={soc1Data} layout="vertical" margin={CHART_MARGIN}>
-            <XAxis type="number" domain={[0, 100]} hide />
-            <YAxis type="category" dataKey="name" hide />
-            <Bar
-              dataKey="value"
-              barSize={95}
-              name=""
-              isAnimationActive={false}
-              fill={SOC1_COLOR}
-              radius={[10, 10, 10, 10]}
-              background={soc1BackgroundRect}
-              shape={<Rectangle rx={10} ry={10} />}
-            >
-              <LabelList dataKey="value" content={CustomLabel} />
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-
         <div className="cpu-util-item">
+          <div className="cpu-util-bar">
+            <ResponsiveContainer width="100%" height={70}>
+              <BarChart data={soc1Data} layout="vertical" margin={CHART_MARGIN}>
+                <XAxis type="number" domain={[0, 100]} hide />
+                <YAxis type="category" dataKey="name" hide />
+                <Bar
+                  dataKey="value"
+                  barSize={95}
+                  name=""
+                  isAnimationActive={false}
+                  fill={SOC1_COLOR}
+                  radius={[10, 10, 10, 10]}
+                  background={soc1BackgroundRect}
+                  shape={<Rectangle rx={10} ry={10} />}
+                >
+                  <LabelList dataKey="value" content={CustomLabel} />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
           <div className="cpu-util-bar">
             <ResponsiveContainer width="100%" height={70}>
               <BarChart data={soc2Data} layout="vertical" margin={CHART_MARGIN}>
