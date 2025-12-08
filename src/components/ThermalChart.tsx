@@ -72,7 +72,7 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
     });
   }, [data.thermalStatus]);
 
-  console.log('ThermalChart data:', data);
+  // console.log('ThermalChart data:', data);
 
   const yAxisDomain = [20, 90];
   const yAxisTicks = [20, 45, 70, 90];
