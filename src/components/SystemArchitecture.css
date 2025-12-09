@@ -227,14 +227,32 @@
 #system-architecture .ps16 {
   box-sizing: border-box;
 
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  left: 60px;
-  top: 5.5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 12px;
+
+  min-width: 70px;
+  min-height: 27px;
 
   background: #16b56b;
-  border-radius: 100%;
+  border-radius: 30px;
+
+  height: 19px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 27px;
+
+  color: #ffffff;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
 }
 
 #system-architecture .ps16.err {
@@ -243,6 +261,84 @@
 
 #system-architecture .ps16.warn {
   background: #ffc60a;
+}
+
+#system-architecture .ps-linux {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 12px;
+
+  min-width: 90px;
+  min-height: 27px;
+
+  background-image: url('../assets/images/system-architecture/ps-linux-normal.png');
+  border-radius: 30px;
+
+  height: 19px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 27px;
+
+  color: #ffffff;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+#system-architecture .ps-linux.err {
+  background-image: url('../assets/images/system-architecture/ps-linux-error.png');
+}
+
+#system-architecture .ps-linux.warn {
+  background-image: url('../assets/images/system-architecture/ps-linux-warn.png');
+}
+
+#system-architecture .ps-android {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 12px;
+
+  min-width: 90px;
+  min-height: 27px;
+
+  background-image: url('../assets/images/system-architecture/ps-android-normal.png');
+  border-radius: 30px;
+
+  height: 19px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 27px;
+
+  color: #ffffff;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+#system-architecture .ps-android.err {
+  background-image: url('../assets/images/system-architecture/ps-android-error.png');
+}
+
+#system-architecture .ps-android.warn {
+  background-image: url('../assets/images/system-architecture/ps-android-warn.png');
 }
 
 #system-architecture .module .module-info .module-ps {

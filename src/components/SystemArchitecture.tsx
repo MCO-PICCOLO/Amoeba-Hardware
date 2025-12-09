@@ -73,8 +73,10 @@ const SystemArchitecture = ({
             ? 'warn'
             : ''
         }`}
-        style={{ position: 'absolute', top: '133.5px', left: '560px' }}
-      />
+        style={{ position: 'absolute', top: '128px', left: '508px' }}
+      >
+        Power
+      </div>
       {/* SoC1 */}
       <div
         className={`health24 ${
@@ -90,8 +92,10 @@ const SystemArchitecture = ({
             ? 'warn'
             : ''
         }`}
-        style={{ position: 'absolute', top: '267px', left: '260px' }}
-      />
+        style={{ position: 'absolute', top: '262px', left: '207px' }}
+      >
+        Power
+      </div>
       {/* Camera1 */}
       <div
         className={`health24 ${
@@ -107,28 +111,30 @@ const SystemArchitecture = ({
             ? 'warn'
             : ''
         }`}
-        style={{ position: 'absolute', top: '424px', left: '184px' }}
-      />
+        style={{ position: 'absolute', top: '417px', left: '130px' }}
+      >
+        Power
+      </div>
       {/* Display1 */}
       <div
-        className={`ps16 ${
+        className={`ps-linux ${
           getModuleErrorStatus('Display1').hasPowerError
             ? 'err'
             : getModuleErrorStatus('Display1').hasPowerWarn
             ? 'warn'
             : ''
         }`}
-        style={{ position: 'absolute', top: '424px', left: '337px' }}
+        style={{ position: 'absolute', top: '417px', left: '264px' }}
       />
       <div
-        className={`ps16 ${
+        className={`ps-android ${
           getModuleErrorStatus('Display1').hasPowerAndroidError
             ? 'err'
             : getModuleErrorStatus('Display1').hasPowerAndroidWarn
             ? 'warn'
             : ''
         }`}
-        style={{ position: 'absolute', top: '453px', left: '337px' }}
+        style={{ position: 'absolute', top: '448px', left: '264px' }}
       />
       {/* ETH1 */}
       <div
@@ -145,8 +151,10 @@ const SystemArchitecture = ({
             ? 'warn'
             : ''
         }`}
-        style={{ position: 'absolute', top: '442px', left: '470px' }}
-      />
+        style={{ position: 'absolute', top: '437px', left: '417px' }}
+      >
+        Power
+      </div>
       {/* SoC2 */}
       <div
         className={`health24 ${
@@ -162,8 +170,10 @@ const SystemArchitecture = ({
             ? 'warn'
             : ''
         }`}
-        style={{ position: 'absolute', top: '267px', left: '861px' }}
-      />
+        style={{ position: 'absolute', top: '262px', left: '808px' }}
+      >
+        Power
+      </div>
       {/* Camera2 */}
       <div
         className={`health24 ${
@@ -179,18 +189,20 @@ const SystemArchitecture = ({
             ? 'warn'
             : ''
         }`}
-        style={{ position: 'absolute', top: '423px', left: '785px' }}
-      />
+        style={{ position: 'absolute', top: '427px', left: '732px' }}
+      >
+        Power
+      </div>
       {/* Display2 */}
       <div
-        className={`ps16 ${
+        className={`ps-linux ${
           getModuleErrorStatus('Display2').hasPowerError
             ? 'err'
             : getModuleErrorStatus('Display2').hasPowerWarn
             ? 'warn'
             : ''
         }`}
-        style={{ position: 'absolute', top: '423px', left: '938px' }}
+        style={{ position: 'absolute', top: '417px', left: '864px' }}
       />
       {/* ETH2 */}
       <div
@@ -207,8 +219,10 @@ const SystemArchitecture = ({
             ? 'warn'
             : ''
         }`}
-        style={{ position: 'absolute', top: '442px', left: '652px' }}
-      />
+        style={{ position: 'absolute', top: '437px', left: '599px' }}
+      >
+        Power
+      </div>
       {/* Zonal0 */}
       <div
         className={`health24 ${
