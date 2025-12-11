@@ -7,7 +7,7 @@ import {
   CartesianGrid,
   ReferenceLine,
 } from 'recharts';
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import './ThermalChart.css';
 import type { HTMLAttributes } from 'react';
 import type { ThermalMonitoringData } from '../utils/Data';
@@ -34,20 +34,14 @@ const CHART_CONTAINER_STYLE = {
   left: '20px',
 };
 
-const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
+const ThermalChart = memo(({ title, data, ...props }: ThermalChartProps) => {
   const fixedMaxTime = 300; // 5분 * 60초 = 300개 데이터 포인트
   const xTicks = [60, 120, 180, 240, 300]; // 1분, 2분, 3분, 4분, 5분
   const domainMax = fixedMaxTime;
 
-  // chartData를 useMemo로 최적화 (data.thermalStatus 변경 시에만 재생성)
+  // chartData를 useMemo로 최적화
+  // 항상 최신 300개 데이터를 Queue처럼 표시 (슬라이딩 윈도우)
   const chartData = useMemo(() => {
-    const maxLength = Math.max(
-      ...data.thermalStatus.map((thermal) => thermal.value.length),
-      0,
-    );
-
-    const dataLength = Math.min(maxLength, fixedMaxTime);
-
     return Array.from({ length: fixedMaxTime }, (_v, timeIndex) => {
       const dataPoint: { time: number; [key: string]: number | null } = {
         time: timeIndex + 1,
@@ -57,12 +51,14 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
         const n = thermal.value.length;
         let value: number | null = null;
 
-        if (timeIndex < dataLength) {
-          if (n >= fixedMaxTime) {
-            value = thermal.value[n - fixedMaxTime + timeIndex];
-          } else if (timeIndex < n) {
-            value = thermal.value[timeIndex];
-          }
+        // 항상 최신 300개 데이터 포인트만 사용 (Queue 동작)
+        if (n >= fixedMaxTime) {
+          // 데이터가 300개 이상이면 최신 300개만 사용
+          const startIndex = n - fixedMaxTime;
+          value = thermal.value[startIndex + timeIndex];
+        } else if (timeIndex < n) {
+          // 데이터가 300개 미만이면 처음부터 표시
+          value = thermal.value[timeIndex];
         }
 
         dataPoint[thermal.moduleName] = value;
@@ -70,7 +66,7 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
 
       return dataPoint;
     });
-  }, [data.thermalStatus]);
+  }, [data]);
 
   // console.log('ThermalChart data:', data);
 
@@ -147,6 +143,8 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
       </div>
     </div>
   );
-};
+});
+
+ThermalChart.displayName = 'ThermalChart';
 
 export default ThermalChart;

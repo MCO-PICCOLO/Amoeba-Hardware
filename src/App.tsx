@@ -6,29 +6,39 @@ const App = () => {
   const [resetKey, setResetKey] = useState<number>(0);
   const resetTimerRef = useRef<number | null>(null);
 
-  const startResetTimer = () => {
-    if (resetTimerRef.current) {
-      clearTimeout(resetTimerRef.current);
-    }
-    resetTimerRef.current = setTimeout(() => {
-      handleReset();
-    }, 30 * 60 * 1000);
-  };
+  // const startResetTimer = () => {
+  //   if (resetTimerRef.current) {
+  //     clearTimeout(resetTimerRef.current);
+  //   }
+  //   resetTimerRef.current = setTimeout(() => {
+  //     handleReset();
+  //   }, 30 * 60 * 1000);
+  //   // }, 60 * 1000);
+  // };
 
   const handleReset = () => {
     setResetKey((prev) => prev + 1);
     console.log('Reset triggered', resetKey);
 
-    startResetTimer();
+    // startResetTimer();
   };
 
   useEffect(() => {
-    startResetTimer();
+    // startResetTimer();
+
+    setInterval(() => {
+      const measures = performance.getEntriesByType('measure');
+      if (measures.length > 0) {
+        console.log(`Clearing ${measures.length} measures`);
+        performance.clearMeasures();
+        performance.clearMarks();
+      }
+    }, 30000); // 30초마다
 
     return () => {
-      if (resetTimerRef.current) {
-        clearTimeout(resetTimerRef.current);
-      }
+      // if (resetTimerRef.current) {
+      //   clearTimeout(resetTimerRef.current);
+      // }
     };
   }, []);
 
