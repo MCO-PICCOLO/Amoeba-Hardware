@@ -4,7 +4,7 @@ import SystemMonitor from './pages/SystemMonitor';
 
 const App = () => {
   const [resetKey, setResetKey] = useState<number>(0);
-  const resetTimerRef = useRef<number | null>(null);
+  // const resetTimerRef = useRef<number | null>(null);
 
   // const startResetTimer = () => {
   //   if (resetTimerRef.current) {
@@ -16,17 +16,17 @@ const App = () => {
   //   // }, 60 * 1000);
   // };
 
-  const handleReset = () => {
-    setResetKey((prev) => prev + 1);
-    console.log('Reset triggered', resetKey);
+  // const handleReset = () => {
+  //   setResetKey((prev) => prev + 1);
+  //   console.log('Reset triggered', resetKey);
 
-    // startResetTimer();
-  };
+  //   // startResetTimer();
+  // };
 
   useEffect(() => {
     // startResetTimer();
 
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       const measures = performance.getEntriesByType('measure');
       if (measures.length > 0) {
         console.log(`Clearing ${measures.length} measures`);
@@ -39,13 +39,14 @@ const App = () => {
       // if (resetTimerRef.current) {
       //   clearTimeout(resetTimerRef.current);
       // }
+      clearInterval(intervalId);
     };
   }, []);
 
   return (
     <div>
       <SystemMonitor key={resetKey} />
-      <div
+      {/* <div
         className="hidden-reset-key"
         style={{
           position: 'absolute',
@@ -57,7 +58,7 @@ const App = () => {
         onClick={() => {
           handleReset();
         }}
-      ></div>
+      ></div> */}
     </div>
   );
 };
