@@ -26,7 +26,7 @@ const TICK_STYLE = {
   fill: '#1D1D1D',
 };
 
-const CHART_MARGIN = { top: 5, right: 0, left: 0, bottom: 5 } as const;
+const CHART_MARGIN = { top: 5, right: 15, left: 0, bottom: 5 } as const;
 const GRIDLINE_STYLE = { strokeDasharray: '3 3' } as const;
 const CHART_CONTAINER_STYLE = {
   position: 'absolute' as const,
@@ -122,7 +122,7 @@ const ThermalChart = ({ title, data, ...props }: ThermalChartProps) => {
               width={50}
               domain={yAxisDomain}
               ticks={yAxisTicks}
-              axisLine={false}
+              axisLine={true}
               tick={TICK_STYLE}
             />
             <ReferenceLine y={90} stroke="#FF0000" strokeWidth={2} />
