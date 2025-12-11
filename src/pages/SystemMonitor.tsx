@@ -504,7 +504,11 @@ const SystemMonitor = ({}: SystemMonitorProps) => {
       const modules = processModuleData(systemData);
 
       // 최적화된 Thermal 데이터 처리 함수
-      const updateThermalData = (socData: any, thermalRef: any) => {
+      const updateThermalData = (
+        socData: any,
+        thermalRef: any,
+        socName: string,
+      ) => {
         const temperatureData = socData?.ServerVM?.Temperature;
         if (!temperatureData) return false;
 
