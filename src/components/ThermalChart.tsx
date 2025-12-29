@@ -6,6 +6,7 @@ import {
   YAxis,
   CartesianGrid,
   ReferenceLine,
+  Label,
 } from 'recharts';
 import { useMemo, memo } from 'react';
 import './ThermalChart.css';
@@ -70,8 +71,8 @@ const ThermalChart = memo(({ title, data, ...props }: ThermalChartProps) => {
 
   // console.log('ThermalChart data:', data);
 
-  const yAxisDomain = [20, 90];
-  const yAxisTicks = [20, 45, 70, 90];
+  const yAxisDomain = [20, 100];
+  const yAxisTicks = [20, 45, 70, 100];
 
   // X축 라벨 포매터 - 초를 분으로 변환
   const formatXAxisLabel = (value: number) => {
@@ -121,7 +122,21 @@ const ThermalChart = memo(({ title, data, ...props }: ThermalChartProps) => {
               axisLine={true}
               tick={TICK_STYLE}
             />
-            <ReferenceLine y={90} stroke="#FF0000" strokeWidth={2} />
+            <ReferenceLine
+              y={90}
+              stroke="#FF0000"
+              strokeWidth={2}
+              strokeDasharray="5 5"
+            >
+              <Label
+                value="Junction Temp. Threshold"
+                position="top"
+                fill="#FF0000"
+                fontSize={14}
+                fontFamily="Pretendard"
+                offset={5}
+              />
+            </ReferenceLine>
             {data.thermalStatus.map((thermal, index) => (
               <Line
                 key={`line-${index}`}
